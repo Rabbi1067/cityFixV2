@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-3"><img alt="CityFix Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1qIprtHsaC--pSuLEUYQ0qnbbdv-J-zjj09JJtxiRjbd-gTDFXENKML1Fup_WBnV1lpBzifb1APRRU5OWAei33kNGiPoo4rwW9rOwcCK1o3_0-QIVJYwWczyaknvOlDkDQpA5WaAeX-3taGd7RXaZ_kJK8MRx9lPO_lF99gRHrsF3hgvl6p7-Q0gmndb3YjNRf9RJ5iy-K5OsdpbtKoi_nw71OaU6c4JlL9UKEj5ImPeDa_VLXb9UQ"><span class="font-title-md text-title-md text-primary tracking-tight">CityFix</span></div>
+    <nav class="hidden md:flex items-center gap-8">
+        <a class="transition-colors"
+           th:classappend="${activePage == 'home'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/}">Home</a>
+
+        <a class="transition-colors"
+           th:classappend="${activePage == 'about'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/about}">About</a>
+
+        <a class="transition-colors"
+           th:classappend="${activePage == 'contact'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/contact}">Contact</a>
+        <a class="transition-colors"
+           th:classappend="${activePage == 'login'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/login}">Login</a>
+        <a class="bg-primary text-on-primary px-4 py-2 rounded-lg hover:bg-primary-container transition-all" th:href="@{/register}">Register</a>
+    </nav>
+</div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+    <!-- Hero Section: Immersive Overlap -->
+    <section class="relative w-full h-[614px] min-h-[500px] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="w-full h-full bg-cover bg-center" data-alt="A cinematic, wide-angle shot of a modern, sustainable smart city skyline at dusk. Soft blue and amber lights illuminate architectural glass structures. In the foreground, a clean, minimal public plaza with digital kiosks. The atmosphere is professional, calm, and high-tech, using a palette of deep blues and crisp whites." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTJLf5B5etEveb80OSstUga8nWbcaR0aWqD5ZB7FboGCcjAfeJHs_cZv-68OhnBCjc3MjHGmvD9chey_iQDMNKr8-MrPco8xoT0NbLqFmJYG7U6_RMmrojxyAIshV3JpLCNyYaF-twInuPEJnHuZgO3Be7nyKJo69ADb4GodWTW5iuSDOCr-6MJB_AueCl5fXzuonnHdjzU35qGHm0TbyHwWAspk1UfysI-zkXjWDP9vurHvLfCtBoSw')"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/40 to-transparent"></div>
+        </div>
+        <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop w-full">
+            <div class="max-w-2xl">
+                <span class="font-label-md text-label-md text-primary-fixed uppercase tracking-[0.2em] mb-4 block">Get in Touch</span>
+                <h1 class="font-display-lg text-display-lg text-on-primary mb-6 leading-tight">We're here to help build a <span class="text-secondary-fixed">better city</span> together.</h1>
+                <p class="font-body-lg text-body-lg text-primary-fixed/80 max-w-lg">
+                    Whether you're a citizen reporting an issue or a municipality looking to partner, our team is ready to assist.
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- Main Content Grid -->
+    <section class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop w-full -mt-24 mb-24 relative z-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+            <!-- Contact Form Card -->
+            <div class="lg:col-span-7 bg-surface-container-lowest shadow-xl rounded-xl p-8 lg:p-12">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface mb-8">Send us a Message</h2>
+                <form class="space-y-6" id="contactForm">
+                    <!-- All submissions from this form are sent to fazlerabbicse65@gmail.com via EmailJS (no backend needed) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="font-label-md text-label-md text-on-surface-variant" for="fullName">Full Name</label>
+                            <input class="bg-surface border border-outline-variant px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" id="fullName" name="fullName" placeholder="John Doe" required="" type="text">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="font-label-md text-label-md text-on-surface-variant" for="email">Email Address</label>
+                            <input class="bg-surface border border-outline-variant px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" id="email" name="email" placeholder="john@example.com" required="" type="email">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant" for="subject">Subject</label>
+                        <input class="bg-surface border border-outline-variant px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" id="subject" name="subject" placeholder="How can we help?" required="" type="text">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-md text-label-md text-on-surface-variant" for="message">Message</label>
+                        <textarea class="bg-surface border border-outline-variant px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" id="message" name="message" placeholder="Tell us more about your inquiry..." required="" rows="5"></textarea>
+                    </div>
+                    <div id="formStatus" class="hidden rounded-lg px-4 py-3 text-label-md font-label-md"></div>
+                    <button class="w-full md:w-auto px-12 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2" id="submitBtn" type="submit">
+                        <span id="submitBtnText">Send Message</span>
+                        <span class="material-symbols-outlined text-sm">send</span>
+                    </button>
+                </form>
+            </div>
+            <!-- Contact Info Sidebar -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Info Cards -->
+                <div class="bg-surface-container shadow-sm rounded-xl p-8 flex items-start gap-6">
+                    <div class="bg-primary/10 p-3 rounded-lg text-primary">
+                        <span class="material-symbols-outlined">location_on</span>
+                    </div>
+                    <div>
+                        <h3 class="font-title-md text-title-md text-on-surface mb-1">Office Address</h3>
+                        <p class="text-on-surface-variant">Tejgaon Industrial Area<br>Dhaka-1208, Bangladesh</p>
+                    </div>
+                </div>
+                <div class="bg-surface-container shadow-sm rounded-xl p-8 flex items-start gap-6">
+                    <div class="bg-secondary/10 p-3 rounded-lg text-secondary">
+                        <span class="material-symbols-outlined">call</span>
+                    </div>
+                    <div>
+                        <h3 class="font-title-md text-title-md text-on-surface mb-1">Phone &amp; Email</h3>
+                        <p class="text-on-surface-variant">+1 (555) 012-3456<br>support@cityfix.gov</p>
+                    </div>
+                </div>
+                <div class="bg-surface-container shadow-sm rounded-xl p-8 flex items-start gap-6">
+                    <div class="bg-tertiary/10 p-3 rounded-lg text-tertiary">
+                        <span class="material-symbols-outlined">schedule</span>
+                    </div>
+                    <div>
+                        <h3 class="font-title-md text-title-md text-on-surface mb-1">Working Hours</h3>
+                        <p class="text-on-surface-variant">Monday – Friday: 9:00 AM – 6:00 PM<br>Emergency Support: 24/7</p>
+                    </div>
+                </div>
+                <!-- Map Section: live embedded Google Map centered on Tejgaon, Dhaka -->
+                <div class="rounded-xl overflow-hidden shadow-sm h-64 lg:h-auto lg:grow">
+                    <iframe
+                            allowfullscreen=""
+                            class="w-full h-full min-h-[300px] border-0"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q=Tejgaon+Industrial+Area,+Dhaka-1208,+Bangladesh&output=embed">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ Section: High Contrast Layout -->
+    <section class="bg-surface-container-high py-24">
+        <div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop">
+            <div class="text-center mb-16">
+                <h2 class="font-display-lg text-display-lg text-on-surface mb-4">Frequently Asked Questions</h2>
+                <div class="h-1 w-24 bg-primary mx-auto rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-primary hover:-translate-y-1 transition-transform">
+                    <h4 class="font-title-md text-title-md text-on-surface mb-3">How quickly are complaints resolved?</h4>
+                    <p class="text-on-surface-variant">Response times vary by category. Urgent safety issues are typically addressed within 24 hours, while routine maintenance may take 3-5 business days.</p>
+                </div>
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-secondary hover:-translate-y-1 transition-transform">
+                    <h4 class="font-title-md text-title-md text-on-surface mb-3">Can I remain anonymous when reporting?</h4>
+                    <p class="text-on-surface-variant">Yes, you can choose to hide your identity from the public portal, though city officials may need your contact info for verification purposes.</p>
+                </div>
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-tertiary hover:-translate-y-1 transition-transform">
+                    <h4 class="font-title-md text-title-md text-on-surface mb-3">Is there a mobile app available?</h4>
+                    <p class="text-on-surface-variant">Our platform is fully responsive for mobile browsers. Dedicated iOS and Android applications are currently in beta testing.</p>
+                </div>
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border-l-4 border-primary hover:-translate-y-1 transition-transform">
+                    <h4 class="font-title-md text-title-md text-on-surface mb-3">How do I track my report status?</h4>
+                    <p class="text-on-surface-variant">Once submitted, you'll receive a unique tracking ID. You can enter this on the 'Complaints' page to see real-time progress updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Decorative CTA Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+        <div class="max-w-4xl mx-auto text-center px-margin-mobile">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Need immediate assistance?</h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-10">Our 24/7 hotline is available for critical infrastructure failures or safety hazards that require instant attention.</p>
+            <a class="inline-flex items-center gap-3 px-8 py-4 bg-on-surface text-surface-container-lowest rounded-full hover:bg-on-surface-variant transition-colors shadow-lg" href="tel:311">
+                <span class="material-symbols-outlined">emergency</span>
+                <span class="font-title-md text-title-md">Call City Helpline: 311</span>
+            </a>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // ============================================================
+        // EmailJS setup — replace the 3 values below with your own
+        // (https://www.emailjs.com — free account, no backend needed)
+        // ============================================================
+        const EMAILJS_PUBLIC_KEY = "VnYZNtH-EJq1vfqe2";
+        const EMAILJS_SERVICE_ID = "service_z6lklkj";
+        const EMAILJS_TEMPLATE_ID = "template_8hlpskp";
+        const RECIPIENT_EMAIL = "fazlerabbicse65@gmail.com";
+
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+        // Micro-interaction for form inputs
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Contact form submit -> sends email directly from the browser via EmailJS
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const formStatus = document.getElementById('formStatus');
+
+        function showStatus(message, isSuccess) {
+            formStatus.textContent = message;
+            formStatus.classList.remove('hidden', 'bg-secondary-container', 'text-on-secondary-container', 'bg-error-container', 'text-on-error-container');
+            if (isSuccess) {
+                formStatus.classList.add('bg-secondary-container', 'text-on-secondary-container');
+            } else {
+                formStatus.classList.add('bg-error-container', 'text-on-error-container');
+            }
+        }
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtnText.textContent = 'Sending...';
+
+            const params = {
+                name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                to_email: RECIPIENT_EMAIL
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+                .then(() => {
+                    showStatus('Message sent successfully! We\'ll get back to you soon.', true);
+                    contactForm.reset();
+                })
+                .catch((err) => {
+                    console.error('EmailJS error:', err);
+                    showStatus('Something went wrong. Please try again or email us directly.', false);
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtnText.textContent = 'Send Message';
+                });
+        });
+    </script>
+</div></main><footer class="bg-surface-container-low border-t border-outline-variant py-12 mt-12"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex flex-col md:flex-row justify-between items-start gap-8"><div class="max-w-xs"><div class="flex items-center gap-2 mb-4"><img alt="CityFix Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1qIprtHsaC--pSuLEUYQ0qnbbdv-J-zjj09JJtxiRjbd-gTDFXENKML1Fup_WBnV1lpBzifb1APRRU5OWAei33kNGiPoo4rwW9rOwcCK1o3_0-QIVJYwWczyaknvOlDkDQpA5WaAeX-3taGd7RXaZ_kJK8MRx9lPO_lF99gRHrsF3hgvl6p7-Q0gmndb3YjNRf9RJ5iy-K5OsdpbtKoi_nw71OaU6c4JlL9UKEj5ImPeDa_VLXb9UQ"><span class="font-title-md text-title-md text-primary">CityFix</span></div><p class="text-on-surface-variant text-label-md">Empowering citizens to build smarter, cleaner cities through transparent reporting and efficient governance.</p></div><div class="flex gap-12"><div class="flex flex-col gap-2"> <span class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-2">Information</span><a class="text-on-surface-variant hover:text-primary" href="#">Privacy Policy</a><a class="text-on-surface-variant hover:text-primary" href="#">Terms of Service</a></div><div class="flex flex-col gap-2"> <span class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-2">Support</span><a class="text-on-surface-variant hover:text-primary" href="#">Help Center</a><a class="text-on-surface-variant hover:text-primary" href="#">Contact Us</a></div></div><div class="flex gap-4 items-center"><a href="https://github.com/Rabbi1067" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-on-surface-variant hover:text-primary transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg></a><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">forum</span><a href="mailto:fazlerabbicse65@gmail.com" aria-label="Email" class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined cursor-pointer">mail</span></a></div></div><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-12 pt-8 border-t border-outline-variant text-center text-on-surface-variant text-label-sm">© 2024 CityFix Smart Systems. All rights reserved.</div></footer>
+
+
+
+</body></html>

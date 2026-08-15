@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CityFix - My Profile</title>
+    <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#c4c5d5;border-radius:9999px;}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col">
+    <div class="p-6 flex items-center gap-3 border-b border-outline-variant">
+        <img alt="CityFix Logo" class="h-8 w-auto" th:src="@{/screen.png}">
+        <span class="font-title-md text-title-md text-primary">CityFix</span>
+    </div>
+    <nav class="flex-1 py-6 px-4 space-y-2">
+        <a th:href="@{/citizen/dashboard}" class="flex items-center px-4 py-3 rounded-xl transition-all text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a th:href="@{/citizen/my-complaints}" class="flex items-center px-4 py-3 rounded-xl transition-all text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface">
+            <span class="material-symbols-outlined mr-3">list_alt</span>
+            <span class="font-label-md text-label-md">My Complaints</span>
+        </a>
+        <a th:href="@{/citizen/create-complaint}" class="flex items-center px-4 py-3 rounded-xl transition-all text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface">
+            <span class="material-symbols-outlined mr-3">add_circle</span>
+            <span class="font-label-md text-label-md">Create Complaint</span>
+        </a>
+        <a th:href="@{/citizen/profile}" class="flex items-center px-4 py-3 rounded-xl transition-all bg-secondary-container text-on-secondary-container">
+            <span class="material-symbols-outlined mr-3">person</span>
+            <span class="font-label-md text-label-md">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-outline-variant">
+        <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-xl text-error hover:bg-error-container transition-all">
+            <span class="material-symbols-outlined mr-3">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<div class="pl-sidebar-width">
+    <header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-end px-margin-desktop">
+        <div class="flex items-center gap-6">
+            <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-on-surface transition-colors">notifications</span>
+            <a th:href="@{/citizen/profile}" class="flex items-center gap-3 border-l border-outline-variant pl-6 cursor-pointer hover:opacity-80 transition-opacity">
+                <span class="hidden md:block text-right">
+                    <p class="text-label-md font-bold text-on-surface" id="header-name" th:text="${citizen.name}">Citizen</p>
+                    <p class="text-label-sm text-on-surface-variant">Citizen User</p>
+                </span>
+                <img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-outline-variant shadow-sm" id="header-avatar"
+                     th:src="@{${citizen.profileImagePath != null ? citizen.profileImagePath : '/profile1.jpg'}}">
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-16 min-h-screen bg-surface">
+        <div class="flex flex-col w-full">
+            <!-- Profile Hero Section -->
+            <div class="relative overflow-hidden bg-surface-container-lowest px-margin-desktop py-12 mb-8">
+                <div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 -ml-12 -mb-12 w-64 h-64 bg-secondary/5 rounded-full blur-2xl"></div>
+                <div class="relative flex flex-col md:flex-row items-center gap-8 max-w-container-max mx-auto">
+                    <!-- Profile Image with Camera Upload (preview only, not saved to server) -->
+                    <div class="relative group" id="avatar-container">
+                        <div class="absolute inset-0 bg-primary/20 rounded-full blur-lg scale-90 group-hover:scale-110 transition-transform duration-500"></div>
+                        <img alt="Profile" class="relative w-32 h-32 rounded-full object-cover shadow-xl border-4 border-surface-container-lowest" id="hero-avatar"
+                             th:src="@{${citizen.profileImagePath != null ? citizen.profileImagePath : '/profile1.jpg'}}">
+                        <label for="avatar-input" class="absolute bottom-0 right-0 p-2 bg-primary text-on-primary rounded-full shadow-lg hover:scale-110 transition-transform cursor-pointer z-10">
+                            <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*" class="hidden">
+                        <!-- Small inline status while a photo is being compressed/saved -->
+                        <div id="avatar-status" class="hidden absolute inset-0 rounded-full bg-black/40 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white animate-spin text-[28px]">progress_activity</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4">
+                            <h1 class="font-display-lg text-display-lg text-on-surface" id="hero-name" th:text="${citizen.name}">Citizen</h1>
+                            <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm uppercase tracking-wider">Registered Citizen</span>
+                        </div>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant mt-1" id="hero-location"
+                           th:text="${citizen.address != null and citizen.address.city != null} ? ${citizen.address.city} : 'Location not set'">City</p>
+                        <div class="flex items-center justify-center md:justify-start gap-6 mt-6">
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase">Member Since</span>
+                                <span class="font-title-md text-title-md text-on-surface" th:text="${#temporals.format(citizen.createdAt, 'MMMM yyyy')}">Jan 2026</span>
+                            </div>
+                            <div class="w-px h-10 bg-outline-variant"></div>
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase">Reports Filed</span>
+                                <span class="font-title-md text-title-md text-on-surface" th:text="${citizen.complaints.size()}">0</span>
+                            </div>
+                            <div class="w-px h-10 bg-outline-variant"></div>
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-label-sm text-on-surface-variant/60 uppercase">Citizen ID</span>
+                                <span class="font-title-md text-title-md text-primary" th:text="${citizen.citizenId}">CTZ-0001</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="px-margin-desktop max-w-container-max mx-auto w-full pb-20">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+                    <!-- Navigation Sidebar (Tabs) -->
+                    <div class="lg:col-span-3">
+                        <nav class="flex flex-col space-y-1 bg-surface-container-low p-2 rounded-xl" id="profile-tabs">
+                            <button class="tab-btn active flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 bg-primary text-on-primary shadow-md" data-tab="personal" type="button">
+                                <span class="material-symbols-outlined">person</span>
+                                <span class="font-label-md text-label-md">Personal Info</span>
+                            </button>
+                            <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-on-surface-variant hover:bg-surface-container-high" data-tab="security" type="button">
+                                <span class="material-symbols-outlined">shield</span>
+                                <span class="font-label-md text-label-md">Security</span>
+                            </button>
+                            <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-on-surface-variant hover:bg-surface-container-high" data-tab="preferences" type="button">
+                                <span class="material-symbols-outlined">tune</span>
+                                <span class="font-label-md text-label-md">Preferences</span>
+                            </button>
+                            <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-on-surface-variant hover:bg-surface-container-high" data-tab="activity" type="button">
+                                <span class="material-symbols-outlined">history</span>
+                                <span class="font-label-md text-label-md">Activity Log</span>
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Content Panels -->
+                    <div class="lg:col-span-9 space-y-6">
+
+                        <!-- ===================== PERSONAL INFO PANEL ===================== -->
+                        <section class="tab-panel shadow-sm bg-surface-container-lowest rounded-xl p-8 transition-opacity duration-300" id="personal-panel">
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Personal Information</h2>
+                                    <p class="font-body-md text-body-md text-on-surface-variant">Update your primary contact details and residential address.</p>
+                                </div>
+                                <button id="edit-personal-btn" type="button" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all shadow-sm">
+                                    <span class="material-symbols-outlined text-[18px]" id="edit-personal-icon">edit</span>
+                                    <span id="edit-personal-text">Edit</span>
+                                </button>
+                            </div>
+                            <form id="personal-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">Full Name</label>
+                                        <input id="field-name" class="personal-field bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all font-body-md" type="text" th:value="${citizen.name}" disabled>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+                                        <input id="field-email" class="bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant outline-none transition-all font-body-md opacity-60 cursor-not-allowed" type="email" th:value="${citizen.email}" disabled>
+                                        <p class="font-label-sm text-label-sm text-on-surface-variant">Email can't be changed here since it's used to log in.</p>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+                                        <input id="field-phone" class="personal-field bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all font-body-md" type="tel" th:value="${citizen.phone}" disabled>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">City</label>
+                                        <input id="field-city" class="personal-field bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all font-body-md" type="text" th:value="${citizen.address != null} ? ${citizen.address.city} : ''" disabled>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">Zip Code</label>
+                                        <input id="field-zip" class="personal-field bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all font-body-md" type="text" th:value="${citizen.address != null} ? ${citizen.address.zipCode} : ''" disabled>
+                                    </div>
+                                    <div class="md:col-span-2 flex flex-col gap-2">
+                                        <label class="font-label-md text-label-md text-on-surface-variant">Residential Address</label>
+                                        <textarea id="field-address" class="personal-field bg-surface-container-low px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all font-body-md" rows="3" disabled th:text="${citizen.address != null} ? ${citizen.address.street} : ''"></textarea>
+                                    </div>
+                                </div>
+                                <p id="personal-error" class="hidden text-error font-label-sm text-label-sm mt-4"></p>
+                                <div id="personal-actions" class="hidden flex items-center justify-end gap-4 mt-6 pt-6 border-t border-outline-variant">
+                                    <button id="cancel-personal-btn" type="button" class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">Cancel</button>
+                                    <button id="save-personal-btn" type="submit" class="px-8 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">Save Changes</button>
+                                </div>
+                            </form>
+                            <div id="personal-toast" class="hidden fixed bottom-8 right-8 z-[100] flex items-center gap-3 px-6 py-4 bg-secondary text-on-secondary rounded-xl shadow-2xl transform translate-y-4 opacity-0 transition-all duration-300">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                <span class="font-label-md text-label-md">Profile updated successfully!</span>
+                            </div>
+                        </section>
+
+                        <!-- ===================== SECURITY PANEL ===================== -->
+                        <section class="tab-panel hidden shadow-sm bg-surface-container-lowest rounded-xl p-8 transition-opacity duration-300" id="security-panel">
+                            <div class="mb-8">
+                                <h2 class="font-headline-lg text-headline-lg text-on-surface">Security Settings</h2>
+                                <p class="font-body-md text-body-md text-on-surface-variant">Manage your password and account protection methods.</p>
+                            </div>
+                            <div class="space-y-8">
+                                <div class="flex items-center justify-between p-6 bg-surface-container-low rounded-xl">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                                            <span class="material-symbols-outlined">find_replace</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-title-md text-title-md text-on-surface">Two-Factor Authentication</h3>
+                                            <p class="font-label-md text-label-md text-on-surface-variant">Adds an extra layer of security to your account.</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-not-allowed opacity-70">
+                                        <input checked class="sr-only peer" type="checkbox" disabled>
+                                        <div class="w-14 h-7 bg-primary rounded-full peer after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:after:translate-x-full"></div>
+                                    </label>
+                                </div>
+
+                                <div class="space-y-6 pt-4">
+                                    <h3 class="font-title-md text-title-md text-on-surface">Change Password</h3>
+                                    <form id="password-form">
+                                        <div class="grid grid-cols-1 gap-6">
+                                            <div class="flex flex-col gap-2">
+                                                <label class="font-label-md text-label-md text-on-surface-variant">Current Password</label>
+                                                <div class="relative">
+                                                    <input id="pw-current" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Enter current password" type="password">
+                                                    <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-current">
+                                                        <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                                    </button>
+                                                </div>
+                                                <p id="pw-current-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                                            </div>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div class="flex flex-col gap-2">
+                                                    <label class="font-label-md text-label-md text-on-surface-variant">New Password</label>
+                                                    <div class="relative">
+                                                        <input id="pw-new" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Enter new password" type="password">
+                                                        <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-new">
+                                                            <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                                        </button>
+                                                    </div>
+                                                    <p id="pw-new-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                                                    <div class="mt-2 space-y-1.5">
+                                                        <div class="flex items-center gap-2">
+                                                            <div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                                                <div id="pw-strength-bar" class="h-full rounded-full transition-all duration-300 w-0 bg-outline-variant"></div>
+                                                            </div>
+                                                            <span id="pw-strength-label" class="font-label-sm text-label-sm text-on-surface-variant min-w-[60px] text-right">None</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-col gap-2">
+                                                    <label class="font-label-md text-label-md text-on-surface-variant">Confirm New Password</label>
+                                                    <div class="relative">
+                                                        <input id="pw-confirm" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Re-enter new password" type="password">
+                                                        <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-confirm">
+                                                            <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                                        </button>
+                                                    </div>
+                                                    <p id="pw-confirm-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end pt-6">
+                                            <button id="update-pw-btn" type="submit" class="px-8 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">Update Password</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="password-toast" class="hidden fixed bottom-8 right-8 z-[100] flex items-center gap-3 px-6 py-4 bg-secondary text-on-secondary rounded-xl shadow-2xl transform translate-y-4 opacity-0 transition-all duration-300">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                <span class="font-label-md text-label-md">Password updated successfully!</span>
+                            </div>
+                        </section>
+
+                        <!-- ===================== PREFERENCES PANEL (no backend, static) ===================== -->
+                        <section class="tab-panel hidden shadow-sm bg-surface-container-lowest rounded-xl p-8 transition-opacity duration-300" id="preferences-panel">
+                            <div class="mb-8">
+                                <h2 class="font-headline-lg text-headline-lg text-on-surface">Notifications &amp; Preferences</h2>
+                                <p class="font-body-md text-body-md text-on-surface-variant">Control how and when you receive updates from the city.</p>
+                            </div>
+                            <div class="divide-y divide-outline-variant/30">
+                                <div class="py-6 flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <span class="material-symbols-outlined text-on-surface-variant">mail</span>
+                                        <div>
+                                            <h4 class="font-title-md text-title-md text-on-surface">Email Alerts</h4>
+                                            <p class="font-label-md text-label-md text-on-surface-variant">Receive detailed updates on complaint status changes.</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input checked class="sr-only peer" type="checkbox">
+                                        <div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <div class="py-6 flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <span class="material-symbols-outlined text-on-surface-variant">sms</span>
+                                        <div>
+                                            <h4 class="font-title-md text-title-md text-on-surface">SMS Notifications</h4>
+                                            <p class="font-label-md text-label-md text-on-surface-variant">Quick text updates for high-priority resolutions.</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input class="sr-only peer" type="checkbox">
+                                        <div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                                <div class="py-6 flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <span class="material-symbols-outlined text-on-surface-variant">newspaper</span>
+                                        <div>
+                                            <h4 class="font-title-md text-title-md text-on-surface">Community Newsletter</h4>
+                                            <p class="font-label-md text-label-md text-on-surface-variant">Monthly wrap-up of city improvements and upcoming events.</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input checked class="sr-only peer" type="checkbox">
+                                        <div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mt-8 p-6 bg-primary-container/10 rounded-xl border-l-4 border-primary">
+                                <div class="flex gap-4">
+                                    <span class="material-symbols-outlined text-primary">info</span>
+                                    <p class="font-body-md text-body-md text-on-primary-container">
+                                        <strong>Pro-tip:</strong> You can also set specific notification zones on your dashboard map to get alerts for issues reported near your home or workplace.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ===================== ACTIVITY LOG PANEL (no backend, static) ===================== -->
+                        <section class="tab-panel hidden shadow-sm bg-surface-container-lowest rounded-xl p-8 transition-opacity duration-300" id="activity-panel">
+                            <div class="mb-8 flex items-center justify-between">
+                                <div>
+                                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Recent Activity</h2>
+                                    <p class="font-body-md text-body-md text-on-surface-variant">Track your latest interactions with the CityFix platform.</p>
+                                </div>
+                                <button class="text-primary font-label-md text-label-md hover:underline">Download Report</button>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                                            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                                        </div>
+                                        <div class="w-px h-full bg-outline-variant/30 mt-2"></div>
+                                    </div>
+                                    <div class="pb-6">
+                                        <p class="font-title-md text-title-md text-on-surface">Complaint Resolved</p>
+                                        <p class="font-body-md text-body-md text-on-surface-variant">Pothole report at Main St. has been marked as fixed.</p>
+                                        <span class="font-label-sm text-label-sm text-on-surface-variant/60 block mt-1">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined text-[20px]">add_task</span>
+                                        </div>
+                                        <div class="w-px h-full bg-outline-variant/30 mt-2"></div>
+                                    </div>
+                                    <div class="pb-6">
+                                        <p class="font-title-md text-title-md text-on-surface">New Report Filed</p>
+                                        <p class="font-body-md text-body-md text-on-surface-variant">Broken street light reported on Oak Avenue.</p>
+                                        <span class="font-label-sm text-label-sm text-on-surface-variant/60 block mt-1">Yesterday, 4:15 PM</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+                                            <span class="material-symbols-outlined text-[20px]">login</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-title-md text-title-md text-on-surface">Account Login</p>
+                                        <p class="font-body-md text-body-md text-on-surface-variant">Logged in from Metropolis Central - Chrome on MacOS.</p>
+                                        <span class="font-label-sm text-label-sm text-on-surface-variant/60 block mt-1">Oct 24, 2023 09:22 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+
+        /* TAB SWITCHING */
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+                tabButtons.forEach(b => {
+                    b.classList.remove('active', 'bg-primary', 'text-on-primary', 'shadow-md');
+                    b.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+                });
+                btn.classList.add('active', 'bg-primary', 'text-on-primary', 'shadow-md');
+                btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+
+                tabPanels.forEach(panel => {
+                    panel.classList.add('hidden');
+                    panel.style.opacity = '0';
+                });
+                const activePanel = document.getElementById(`${target}-panel`);
+                activePanel.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    activePanel.style.opacity = '1';
+                });
+            });
+        });
+
+        /* AVATAR (stored in this browser only, keyed per citizen, survives logout/login) */
+        const avatarInput = document.getElementById('avatar-input');
+        const heroAvatar = document.getElementById('hero-avatar');
+        const headerAvatar = document.getElementById('header-avatar');
+        const avatarStatus = document.getElementById('avatar-status');
+        const avatarKey = 'cityfix-avatar-' + /*[[${citizen.email}]]*/ '';
+
+        const savedAvatar = localStorage.getItem(avatarKey);
+        if (savedAvatar) {
+            heroAvatar.src = savedAvatar;
+            headerAvatar.src = savedAvatar;
+        }
+
+        // Resizes + re-encodes the picked image as a small JPEG before it's stored.
+        // Raw photos (often several MB) blow past localStorage's ~5-10MB quota once
+        // base64-encoded, which made setItem() silently fail before. A compressed
+        // 320px-wide JPEG is typically only a few tens of KB, well inside the limit.
+        function compressImageToDataUrl(file, maxDimension, quality) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('Could not read the file.'));
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onerror = () => reject(new Error('Could not decode that image.'));
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > height && width > maxDimension) {
+                            height = Math.round(height * (maxDimension / width));
+                            width = maxDimension;
+                        } else if (height >= width && height > maxDimension) {
+                            width = Math.round(width * (maxDimension / height));
+                            height = maxDimension;
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file.');
+                avatarInput.value = '';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image must be under 5MB.');
+                avatarInput.value = '';
+                return;
+            }
+
+            avatarStatus.classList.remove('hidden');
+
+            compressImageToDataUrl(file, 320, 0.75)
+                .then((dataUrl) => {
+                    heroAvatar.src = dataUrl;
+                    headerAvatar.src = dataUrl;
+                    try {
+                        localStorage.setItem(avatarKey, dataUrl);
+                    } catch (err) {
+                        // Still shouldn't happen post-compression, but if the browser's
+                        // storage is completely full or blocked (private mode etc.),
+                        // say so instead of failing silently like before.
+                        alert('Could not save the photo (browser storage full or blocked). It will only show for this session.');
+                    }
+                })
+                .catch((err) => {
+                    alert(err.message || 'Could not process that image. Please try another file.');
+                })
+                .finally(() => {
+                    avatarStatus.classList.add('hidden');
+                    avatarInput.value = '';
+                });
+        });
+
+        /* PERSONAL INFO: EDIT / VIEW MODE TOGGLE */
+        const editBtn = document.getElementById('edit-personal-btn');
+        const editIcon = document.getElementById('edit-personal-icon');
+        const editText = document.getElementById('edit-personal-text');
+        const personalFields = document.querySelectorAll('.personal-field');
+        const personalActions = document.getElementById('personal-actions');
+        const cancelPersonalBtn = document.getElementById('cancel-personal-btn');
+        const personalForm = document.getElementById('personal-form');
+        const personalError = document.getElementById('personal-error');
+
+        let originalValues = {};
+        function snapshotValues() {
+            originalValues = {};
+            personalFields.forEach(f => { originalValues[f.id] = f.value; });
+        }
+        function restoreValues() {
+            personalFields.forEach(f => { f.value = originalValues[f.id] || ''; });
+        }
+
+        let isEditing = false;
+
+        function enterEditMode() {
+            isEditing = true;
+            snapshotValues();
+            personalFields.forEach(f => {
+                f.disabled = false;
+                f.classList.add('ring-2', 'ring-primary/10', 'border-primary/30');
+            });
+            personalActions.classList.remove('hidden');
+            editIcon.textContent = 'close';
+            editText.textContent = 'Cancel';
+            editBtn.classList.remove('border-primary', 'text-primary', 'hover:bg-primary', 'hover:text-on-primary');
+            editBtn.classList.add('border-error', 'text-error', 'hover:bg-error-container');
+        }
+
+        function exitEditMode() {
+            isEditing = false;
+            personalFields.forEach(f => {
+                f.disabled = true;
+                f.classList.remove('ring-2', 'ring-primary/10', 'border-primary/30');
+            });
+            personalActions.classList.add('hidden');
+            editIcon.textContent = 'edit';
+            editText.textContent = 'Edit';
+            editBtn.classList.add('border-primary', 'text-primary', 'hover:bg-primary', 'hover:text-on-primary');
+            editBtn.classList.remove('border-error', 'text-error', 'hover:bg-error-container');
+            personalError.classList.add('hidden');
+        }
+
+        editBtn.addEventListener('click', () => {
+            if (isEditing) {
+                restoreValues();
+                exitEditMode();
+            } else {
+                enterEditMode();
+            }
+        });
+
+        cancelPersonalBtn.addEventListener('click', () => {
+            restoreValues();
+            exitEditMode();
+        });
+
+        personalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('field-name').value.trim();
+            const phone = document.getElementById('field-phone').value.trim();
+            const city = document.getElementById('field-city').value.trim();
+            const zipCode = document.getElementById('field-zip').value.trim();
+            const street = document.getElementById('field-address').value.trim();
+
+            if (!name) { shakeField('field-name'); return; }
+            if (!phone) { shakeField('field-phone'); return; }
+            if (!city) { shakeField('field-city'); return; }
+            if (!zipCode) { shakeField('field-zip'); return; }
+            if (!street) { shakeField('field-address'); return; }
+
+            const saveBtn = document.getElementById('save-personal-btn');
+            const originalBtnText = saveBtn.textContent;
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+            personalError.classList.add('hidden');
+
+            fetch('/citizen/profile/update-personal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, street, city, zipCode })
+            })
+                .then(res => res.json().then(data => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalBtnText;
+
+                    if (!ok) {
+                        personalError.textContent = data.error || 'Something went wrong. Please try again.';
+                        personalError.classList.remove('hidden');
+                        return;
+                    }
+
+                    document.getElementById('hero-name').textContent = data.name;
+                    document.getElementById('header-name').textContent = data.name;
+                    document.getElementById('hero-location').textContent = data.city;
+
+                    exitEditMode();
+                    showToast('personal-toast', data.message || 'Profile updated successfully!');
+                })
+                .catch(() => {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalBtnText;
+                    personalError.textContent = 'Network error. Please try again.';
+                    personalError.classList.remove('hidden');
+                });
+        });
+
+        function shakeField(id) {
+            const el = document.getElementById(id);
+            el.classList.add('border-error');
+            el.style.animation = 'shake 0.4s ease';
+            el.addEventListener('animationend', () => {
+                el.style.animation = '';
+            }, { once: true });
+            setTimeout(() => el.classList.remove('border-error'), 2000);
+        }
+
+        /* PASSWORD: TOGGLE VISIBILITY */
+        document.querySelectorAll('.pw-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const input = document.getElementById(targetId);
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility_off';
+                }
+            });
+        });
+
+        /* PASSWORD: STRENGTH METER */
+        const pwNew = document.getElementById('pw-new');
+        const strengthBar = document.getElementById('pw-strength-bar');
+        const strengthLabel = document.getElementById('pw-strength-label');
+
+        pwNew.addEventListener('input', () => {
+            const val = pwNew.value;
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const levels = [
+                { width: '0%', color: 'bg-outline-variant', text: 'None', textColor: 'text-on-surface-variant' },
+                { width: '20%', color: 'bg-error', text: 'Weak', textColor: 'text-error' },
+                { width: '40%', color: 'bg-tertiary', text: 'Fair', textColor: 'text-tertiary' },
+                { width: '60%', color: 'bg-primary-container', text: 'Good', textColor: 'text-primary-container' },
+                { width: '80%', color: 'bg-secondary', text: 'Strong', textColor: 'text-secondary' },
+                { width: '100%', color: 'bg-secondary', text: 'Very Strong', textColor: 'text-secondary' },
+            ];
+
+            const level = levels[Math.min(score, 5)];
+            strengthBar.style.width = level.width;
+            strengthBar.className = 'h-full rounded-full transition-all duration-300 ' + level.color;
+            strengthLabel.textContent = level.text;
+            strengthLabel.className = 'font-label-sm text-label-sm min-w-[60px] text-right ' + level.textColor;
+
+            hideError('pw-new-error');
+        });
+
+        /* PASSWORD: FORM SUBMIT (wired to real backend) */
+        const passwordForm = document.getElementById('password-form');
+
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            hideError('pw-current-error');
+            hideError('pw-new-error');
+            hideError('pw-confirm-error');
+
+            const currentPassword = document.getElementById('pw-current').value;
+            const newPassword = document.getElementById('pw-new').value;
+            const confirmPassword = document.getElementById('pw-confirm').value;
+
+            let valid = true;
+
+            if (!currentPassword) {
+                showError('pw-current-error', 'Current password is required.');
+                shakeField('pw-current');
+                valid = false;
+            }
+            if (!newPassword) {
+                showError('pw-new-error', 'New password is required.');
+                shakeField('pw-new');
+                valid = false;
+            } else if (newPassword.length < 6) {
+                showError('pw-new-error', 'Password must be at least 6 characters.');
+                shakeField('pw-new');
+                valid = false;
+            }
+            if (!confirmPassword) {
+                showError('pw-confirm-error', 'Please confirm your new password.');
+                shakeField('pw-confirm');
+                valid = false;
+            } else if (confirmPassword !== newPassword) {
+                showError('pw-confirm-error', 'Passwords do not match.');
+                shakeField('pw-confirm');
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            const updateBtn = document.getElementById('update-pw-btn');
+            const originalBtnText = updateBtn.textContent;
+            updateBtn.disabled = true;
+            updateBtn.textContent = 'Updating...';
+
+            fetch('/citizen/profile/change-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+            })
+                .then(res => res.json().then(data => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    updateBtn.disabled = false;
+                    updateBtn.textContent = originalBtnText;
+
+                    if (!ok) {
+                        // Show the server's error where it makes the most sense
+                        const msg = data.error || 'Something went wrong. Please try again.';
+                        if (msg.toLowerCase().includes('current password')) {
+                            showError('pw-current-error', msg);
+                            shakeField('pw-current');
+                        } else if (msg.toLowerCase().includes('match')) {
+                            showError('pw-confirm-error', msg);
+                            shakeField('pw-confirm');
+                        } else {
+                            showError('pw-new-error', msg);
+                            shakeField('pw-new');
+                        }
+                        return;
+                    }
+
+                    passwordForm.reset();
+                    strengthBar.style.width = '0%';
+                    strengthLabel.textContent = 'None';
+                    strengthLabel.className = 'font-label-sm text-label-sm min-w-[60px] text-right text-on-surface-variant';
+
+                    showToast('password-toast', data.message || 'Password updated successfully!');
+                })
+                .catch(() => {
+                    updateBtn.disabled = false;
+                    updateBtn.textContent = originalBtnText;
+                    showError('pw-new-error', 'Network error. Please try again.');
+                });
+        });
+
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+        function hideError(id) {
+            const el = document.getElementById(id);
+            el.textContent = '';
+            el.classList.add('hidden');
+        }
+
+        /* TOAST NOTIFICATION */
+        function showToast(toastId, message) {
+            const toast = document.getElementById(toastId);
+            const msgEl = toast.querySelector('span:last-child');
+            if (msgEl) msgEl.textContent = message;
+            toast.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateY(0)';
+                toast.style.opacity = '1';
+            });
+            setTimeout(() => {
+                toast.style.transform = 'translateY(16px)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        /* SHAKE ANIMATION (injected) */
+        const style = document.createElement('style');
+        style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+    `;
+        document.head.appendChild(style);
+
+    });
+</script>
+
+</body>
+</html>

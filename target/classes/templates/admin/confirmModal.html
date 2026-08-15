@@ -1,0 +1,129 @@
+<!-- Reusable confirm modal — je kono page-e ei fragment include korle
+     temp-block / block / delete-er moto risky action-er jonno ekta
+     custom "scene" (browser-er default confirm() na) open hobe.
+     Include korার niyom: <div th:replace="~{fragments/confirmModal :: modal}"></div>
+     (Ar kono alada JS file/script tag lagbe na — script eikhaneই ache.) -->
+<div th:fragment="modal">
+    <div id="confirmModalOverlay" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center px-4">
+        <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <div class="flex items-center gap-3 mb-4">
+                <div id="confirmModalIconWrap" class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-error" id="confirmModalIcon">warning</span>
+                </div>
+                <h3 id="confirmModalTitle" class="font-headline-lg text-headline-lg text-on-surface">Are you sure?</h3>
+            </div>
+            <p id="confirmModalMessage" class="font-body-md text-on-surface-variant mb-6">This action cannot be undone.</p>
+            <div class="flex gap-3">
+                <button type="button" id="confirmModalCancel"
+                        class="flex-1 h-11 rounded-lg border border-outline-variant text-on-surface font-label-md hover:bg-surface-container transition-all">
+                    Cancel
+                </button>
+                <button type="button" id="confirmModalConfirm"
+                        class="flex-1 h-11 rounded-lg bg-error text-on-error font-label-md hover:opacity-90 transition-all">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic confirm-modal handler.
+         Kono form-e ei class gula dile automatic modal-e wrap hoye jay:
+           .js-confirm-delete    -> danger tone, "Delete" button
+           .js-confirm-block     -> danger tone, "Block" button
+           .js-temp-block-form   -> warning tone, day-count dynamically message-e boshe
+         Notun kono risky action lagle shudhu form-e class add koro, ei script-e
+         kono change lagbe na (Open/Closed principle). -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('confirmModalOverlay');
+            if (!overlay) return;
+
+            const titleEl = document.getElementById('confirmModalTitle');
+            const messageEl = document.getElementById('confirmModalMessage');
+            const cancelBtn = document.getElementById('confirmModalCancel');
+            const confirmBtn = document.getElementById('confirmModalConfirm');
+            const iconWrap = document.getElementById('confirmModalIconWrap');
+            const iconEl = document.getElementById('confirmModalIcon');
+
+            let pendingForm = null;
+
+            function openModal({ title, message, confirmLabel, tone }) {
+                titleEl.textContent = title;
+                messageEl.textContent = message;
+                confirmBtn.textContent = confirmLabel || 'Confirm';
+
+                if (tone === 'warning') {
+                    iconWrap.className = 'w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center shrink-0';
+                    iconEl.className = 'material-symbols-outlined text-tertiary';
+                    iconEl.textContent = 'schedule';
+                    confirmBtn.className = 'flex-1 h-11 rounded-lg bg-tertiary text-on-tertiary font-label-md hover:opacity-90 transition-all';
+                } else {
+                    iconWrap.className = 'w-10 h-10 rounded-full bg-error-container flex items-center justify-center shrink-0';
+                    iconEl.className = 'material-symbols-outlined text-error';
+                    iconEl.textContent = 'warning';
+                    confirmBtn.className = 'flex-1 h-11 rounded-lg bg-error text-on-error font-label-md hover:opacity-90 transition-all';
+                }
+
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+            }
+
+            function closeModal() {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+                pendingForm = null;
+            }
+
+            cancelBtn.addEventListener('click', closeModal);
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeModal();
+            });
+
+            confirmBtn.addEventListener('click', () => {
+                if (pendingForm) pendingForm.submit();
+                closeModal();
+            });
+
+            document.querySelectorAll('.js-confirm-delete').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    pendingForm = form;
+                    openModal({
+                        title: 'Delete this admin?',
+                        message: 'This action cannot be undone. The admin account will be permanently removed.',
+                        confirmLabel: 'Delete',
+                        tone: 'danger'
+                    });
+                });
+            });
+
+            document.querySelectorAll('.js-confirm-block').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    pendingForm = form;
+                    openModal({
+                        title: 'Block this admin?',
+                        message: 'They will not be able to log in until a super admin unblocks them.',
+                        confirmLabel: 'Block',
+                        tone: 'danger'
+                    });
+                });
+            });
+
+            document.querySelectorAll('.js-temp-block-form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const days = form.querySelector('input[name="days"]').value;
+                    pendingForm = form;
+                    openModal({
+                        title: 'Temporary block?',
+                        message: `Block this admin for ${days} day(s). They will be automatically unblocked after that.`,
+                        confirmLabel: 'Block Temporarily',
+                        tone: 'warning'
+                    });
+                });
+            });
+        });
+    </script>
+</div>

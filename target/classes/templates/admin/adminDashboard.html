@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CityFix - Admin Dashboard</title>
+    <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col">
+    <div class="p-6 flex items-center gap-3 border-b border-outline-variant">
+        <img alt="CityFix Logo" class="h-8 w-auto" th:src="@{/screen.png}">
+        <span class="font-title-md text-title-md text-primary">CityFix</span>
+    </div>
+    <nav class="flex-1 py-6 px-4 space-y-2">
+        <a th:href="@{/admin/dashboard}" class="flex items-center px-4 py-3 rounded-xl transition-all bg-secondary-container text-on-secondary-container">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a th:href="@{/admin/complaints}" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">assignment</span>
+            <span class="font-label-md text-label-md">Manage Complaints</span>
+        </a>
+        <a th:href="@{/admin/users}" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">group</span>
+            <span class="font-label-md text-label-md">Manage Users</span>
+        </a>
+        <a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/admin/admins}" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">admin_panel_settings</span>
+            <span class="font-label-md text-label-md">Manage Admins</span>
+        </a>
+        <a th:href="@{/admin/profile}" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">person</span>
+            <span class="font-label-md text-label-md">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-outline-variant">
+        <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-xl text-error hover:bg-error-container transition-all">
+            <span class="material-symbols-outlined mr-3">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<div class="pl-sidebar-width">
+    <header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-between px-margin-desktop">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">dashboard</span>
+            <div class="flex flex-col leading-tight">
+                <span class="font-label-md text-label-md text-on-surface">Admin Dashboard</span>
+                <span class="text-label-sm text-on-surface-variant">City operations overview</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+            <a th:href="@{/admin/profile}" class="flex items-center gap-3 border-l border-outline-variant pl-6 cursor-pointer hover:opacity-80 transition-opacity">
+                <span class="hidden md:block text-right">
+                    <p class="text-label-md font-bold text-on-surface" id="header-name" th:text="${admin.name}">Admin</p>
+                    <p class="text-label-sm text-on-surface-variant">Administrator</p>
+                </span>
+                <img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-outline-variant shadow-sm" id="header-avatar"
+                     th:src="@{${admin.profileImagePath != null ? admin.profileImagePath : '/profile1.jpg'}}">
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-16 min-h-screen bg-surface">
+        <div class="flex flex-col w-full p-margin-desktop">
+
+            <!-- Header Section with Stats -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div class="flex flex-col">
+                    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Executive Overview</span>
+                    <h1 class="font-display-lg text-display-lg text-on-surface">City Operations <span class="text-primary">Live</span></h1>
+                </div>
+                <div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-full shadow-sm">
+                    <button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md transition-all hover:shadow-lg hover:scale-105" type="button">Export Report</button>
+                    <button class="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-outline-variant transition-colors" type="button">Settings</button>
+                </div>
+            </div>
+
+            <!-- Quick Stats Bento Grid (real data from database) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-12">
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-primary mb-4">group</span>
+                        <p class="font-label-md text-label-md text-on-surface-variant">Total Citizens</p>
+                        <h2 class="font-display-lg text-display-lg text-on-surface mt-1" th:text="${totalCitizens}">0</h2>
+                        <div class="flex items-center mt-2 text-on-surface-variant text-label-sm font-label-sm">
+                            <span class="material-symbols-outlined text-sm mr-1">group</span>
+                            <span>Registered on the platform</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-tertiary mb-4">report_problem</span>
+                        <p class="font-label-md text-label-md text-on-surface-variant">Today's Reports</p>
+                        <h2 class="font-display-lg text-display-lg text-on-surface mt-1" th:text="${todaysReports}">0</h2>
+                        <div class="flex items-center mt-2 text-on-surface-variant text-label-sm font-label-sm">
+                            <span class="material-symbols-outlined text-sm mr-1">today</span>
+                            <span>Filed since midnight</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-secondary mb-4">task_alt</span>
+                        <p class="font-label-md text-label-md text-on-surface-variant">Resolution Rate</p>
+                        <h2 class="font-display-lg text-display-lg text-on-surface mt-1" th:text="${resolutionRate} + '%'">0%</h2>
+                        <div class="w-full bg-surface-container mt-4 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-secondary h-full transition-all duration-1000" th:style="'width: ' + ${resolutionRate} + '%'"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-outline/5 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-on-surface-variant mb-4">pending_actions</span>
+                        <p class="font-label-md text-label-md text-on-surface-variant">Pending Review</p>
+                        <h2 class="font-display-lg text-display-lg text-on-surface mt-1" th:text="${pendingReview}">0</h2>
+                        <div class="flex items-center mt-2 text-on-surface-variant text-label-sm font-label-sm">
+                            <span class="material-symbols-outlined text-sm mr-1">hourglass_empty</span>
+                            <span>Awaiting resolution</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Charts Section (Chart.js, real data injected via Thymeleaf) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-12">
+                <div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="font-headline-lg text-headline-lg text-on-surface">Resolution Trends</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Monthly case completion performance</p>
+                        </div>
+                        <select id="trendRangeSelect" class="bg-surface-container px-4 py-2 rounded-lg border-none outline-none font-label-md text-label-md text-on-surface">
+                            <option value="6">Last 6 Months</option>
+                            <option value="12">Last Year</option>
+                        </select>
+                        <!-- Note: backend still sends ONE trend dataset (trendLabels/trendReported/trendResolved,
+                             same as before). The 6/12 toggle below just slices that same array on the client:
+                             if backend sends 12 months of data, "Last 6 Months" shows the last 6 of it and
+                             "Last Year" shows all 12. If backend only ever sends 6 months, both options
+                             will look the same until the backend query window is widened. -->
+                    </div>
+                    <div class="h-80 w-full">
+                        <canvas id="resolutionTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm flex flex-col">
+                    <h3 class="font-headline-lg text-headline-lg text-on-surface mb-2">Category Split</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-8">Distribution of reports</p>
+                    <div class="flex-1 flex items-center justify-center relative">
+                        <canvas id="categoryDoughnutChart"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <span class="font-display-lg text-display-lg text-on-surface" th:text="${categoryTotal}">0</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total</span>
+                        </div>
+                    </div>
+                    <!-- Legend: dynamic, one entry per category actually present in DB -->
+                    <div class="grid grid-cols-2 gap-4 mt-8" id="categoryLegend">
+                        <div class="flex items-center gap-2" th:each="cat, iter : ${categoryLabels}">
+                            <div class="w-3 h-3 rounded-full category-legend-dot" th:attr="data-index=${iter.index}"></div>
+                            <span class="text-label-sm font-label-sm text-on-surface-variant" th:text="${cat}">Category</span>
+                        </div>
+                        <p th:if="${categoryLabels.isEmpty()}" class="text-label-sm text-on-surface-variant col-span-2">No complaints yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section: Recent Urgent Complaints (real data, HIGH/CRITICAL priority) -->
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-12">
+                <div class="p-8 border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-headline-lg text-headline-lg text-on-surface">Recent Urgent Complaints</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Immediate action required for high-priority items</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                        <tr class="bg-surface-container/50 text-on-surface-variant uppercase text-label-sm font-label-sm">
+                            <th class="px-8 py-4">Complaint ID</th>
+                            <th class="px-8 py-4">Subject</th>
+                            <th class="px-8 py-4">Citizen</th>
+                            <th class="px-8 py-4">Location</th>
+                            <th class="px-8 py-4">Priority</th>
+                            <th class="px-8 py-4">Status</th>
+                            <th class="px-8 py-4 text-right">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant">
+                        <tr class="hover:bg-surface-container-low/50 transition-colors" th:each="c : ${urgentComplaints}">
+                            <td class="px-8 py-6 font-label-md text-label-md text-primary" th:text="'#CF-' + ${c.id}">#CF-8921</td>
+                            <td class="px-8 py-6">
+                                <div class="flex flex-col">
+                                    <span class="font-label-md text-label-md text-on-surface" th:text="${c.title}">Subject</span>
+                                    <span class="text-label-sm text-on-surface-variant" th:text="${c.location}">Location</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-[11px] font-bold text-primary uppercase"
+                                         th:text="${c.citizen != null and !#strings.isEmpty(c.citizen.name)} ? ${#strings.substring(c.citizen.name, 0, 1)} : '?'">A</div>
+                                    <span class="text-label-md font-label-md text-on-surface" th:text="${c.citizen != null ? c.citizen.name : 'Unknown'}">Citizen</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 text-label-sm font-label-sm text-on-surface-variant" th:text="${c.location}">Location</td>
+                            <td class="px-8 py-6">
+                                <span th:switch="${c.priority != null ? c.priority.name() : 'LOW'}">
+                                    <span th:case="'CRITICAL'" class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-sm font-bold uppercase">Critical</span>
+                                    <span th:case="'HIGH'" class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-sm font-bold uppercase">High</span>
+                                    <span th:case="*" class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-bold uppercase" th:text="${c.priority}">Medium</span>
+                                </span>
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-2">
+                                    <div th:class="${c.status != null and c.status.name() == 'RESOLVED'} ? 'w-2 h-2 rounded-full bg-secondary' : (${c.status != null and c.status.name() == 'IN_PROGRESS'} ? 'w-2 h-2 rounded-full bg-tertiary' : 'w-2 h-2 rounded-full bg-error animate-pulse')"></div>
+                                    <span class="text-label-sm font-label-sm" th:text="${c.status}">PENDING</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <a th:href="@{'/admin/complaints/' + ${c.id} + '/view'}" class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors inline-block">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${urgentComplaints.isEmpty()}">
+                            <td class="px-8 py-14 text-center" colspan="7">
+                                <div class="flex flex-col items-center gap-2">
+                                    <span class="material-symbols-outlined text-on-surface-variant text-[32px]">check_circle</span>
+                                    <p class="font-title-md text-on-surface">No urgent complaints</p>
+                                    <p class="font-body-md text-on-surface-variant">Everything is currently under control.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-6 bg-surface-container/30 border-t border-outline-variant flex items-center justify-between">
+                    <span class="text-label-sm font-label-sm text-on-surface-variant"
+                          th:text="'Showing ' + ${urgentComplaints.size()} + ' of ' + ${categoryTotal} + ' complaints'">Showing 0 of 0 complaints</span>
+                    <div class="flex gap-4">
+                        <a th:href="@{/admin/complaints}" class="text-label-sm font-label-sm text-primary hover:underline">View All Active Cases</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Map (Leaflet + OpenStreetMap, frontend-only, no API key) -->
+            <div class="w-full relative h-[400px] rounded-2xl overflow-hidden mb-12 shadow-xl group">
+                <div id="liveIncidentMap" class="w-full h-full"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-8 left-8 right-8 flex items-end justify-between pointer-events-none">
+                    <div class="bg-surface-container-lowest/90 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-2xl pointer-events-auto">
+                        <h4 class="font-headline-lg text-headline-lg text-on-surface mb-2">Live Incident Map</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Real-time geographical distribution of reports across the city.</p>
+                        <div class="flex gap-4 mt-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-error"></span>
+                                <span class="text-label-sm font-label-sm">Critical</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                <span class="text-label-sm font-label-sm">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="bg-primary text-on-primary p-4 rounded-full shadow-2xl pointer-events-auto hover:scale-110 transition-transform" id="mapFullscreenBtn" type="button">
+                        <span class="material-symbols-outlined">fullscreen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Keeps header avatar in sync with the photo picked on the Admin Profile page
+     (that upload is only saved to this browser's localStorage, not the server) -->
+<script th:inline="javascript">
+    (function () {
+        const avatarKey = 'cityfix-avatar-' + /*[[${admin.email}]]*/ '';
+        const savedAvatar = localStorage.getItem(avatarKey);
+        if (savedAvatar) {
+            document.getElementById('header-avatar').src = savedAvatar;
+        }
+    })();
+</script>
+
+<!-- Real chart data injected from the backend (unchanged: same 3 trend variables as before) -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const trendLabels = /*[[${trendLabels}]]*/ [];
+    const trendReported = /*[[${trendReported}]]*/ [];
+    const trendResolved = /*[[${trendResolved}]]*/ [];
+    const categoryLabels = /*[[${categoryLabels}]]*/ [];
+    const categoryValues = /*[[${categoryValues}]]*/ [];
+    /*]]>*/
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const categoryColors = ['#00288e', '#006c49', '#ffb59a', '#ba1a1a', '#872d00', '#611e00', '#b8c4ff', '#4edea3'];
+
+        /* ============ Resolution Trends (real data, 6/12 month toggle via client-side slicing) ============ */
+        let trendChart;
+        function renderTrendChart(months) {
+            const labels = trendLabels.slice(-months);
+            const reported = trendReported.slice(-months);
+            const resolved = trendResolved.slice(-months);
+
+            const ctx = document.getElementById('resolutionTrendChart').getContext('2d');
+            if (trendChart) trendChart.destroy();
+            trendChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Resolved', data: resolved, backgroundColor: '#1e40af', borderRadius: 8, barThickness: 24 },
+                        { label: 'Reported', data: reported, backgroundColor: '#e0e3e5', borderRadius: 8, barThickness: 24 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: 'Inter', size: 12 } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false }, ticks: { precision: 0 } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        renderTrendChart(6);
+        document.getElementById('trendRangeSelect').addEventListener('change', (e) => {
+            renderTrendChart(parseInt(e.target.value, 10));
+        });
+
+        /* ============ Category Split (real data) ============ */
+        const ctxCategory = document.getElementById('categoryDoughnutChart').getContext('2d');
+        new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels,
+                datasets: [{ data: categoryValues, backgroundColor: categoryColors, borderWidth: 0, hoverOffset: 10 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '80%',
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        document.querySelectorAll('.category-legend-dot').forEach(dot => {
+            const idx = parseInt(dot.getAttribute('data-index'), 10);
+            dot.style.backgroundColor = categoryColors[idx % categoryColors.length];
+        });
+
+        /* ============ Live Map (Leaflet + OpenStreetMap, frontend-only demo markers) ============ */
+        const cityCenter = [23.8103, 90.4125]; // Dhaka default center
+        const map = L.map('liveIncidentMap', { zoomControl: false }).setView(cityCenter, 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        function randomOffset() {
+            return (Math.random() - 0.5) * 0.08;
+        }
+        const incidentTypes = [
+            { color: '#ba1a1a', label: 'Critical' },
+            { color: '#611e00', label: 'In Progress' }
+        ];
+        for (let i = 0; i < 10; i++) {
+            const type = incidentTypes[Math.floor(Math.random() * incidentTypes.length)];
+            const lat = cityCenter[0] + randomOffset();
+            const lng = cityCenter[1] + randomOffset();
+            L.circleMarker([lat, lng], {
+                radius: 8, color: type.color, fillColor: type.color, fillOpacity: 0.6, weight: 2
+            }).addTo(map).bindPopup(`<strong>${type.label}</strong><br>Sample incident marker`);
+        }
+
+        document.getElementById('mapFullscreenBtn').addEventListener('click', () => {
+            const mapEl = document.getElementById('liveIncidentMap');
+            if (mapEl.requestFullscreen) {
+                mapEl.requestFullscreen().then(() => setTimeout(() => map.invalidateSize(), 200));
+            }
+        });
+
+        setTimeout(() => map.invalidateSize(), 300);
+    });
+</script>
+
+</body>
+</html>

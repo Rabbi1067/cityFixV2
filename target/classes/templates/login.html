@@ -1,0 +1,170 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>CityFix - Login</title><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"on-error-container":"#93000a","surface-bright":"#f7f9fb","tertiary":"#611e00","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","on-tertiary-container":"#ffa583","outline-variant":"#c4c5d5","primary":"#00288e","on-background":"#191c1e","surface":"#f7f9fb","surface-container-high":"#e6e8ea","on-primary-fixed":"#001453","tertiary-fixed-dim":"#ffb59a","on-secondary":"#ffffff","surface-container-highest":"#e0e3e5","primary-fixed-dim":"#b8c4ff","surface-tint":"#3755c3","outline":"#757684","surface-container-lowest":"#ffffff","surface-container-low":"#f2f4f6","on-tertiary":"#ffffff","error":"#ba1a1a","on-primary-fixed-variant":"#173bab","secondary-container":"#6cf8bb","tertiary-container":"#872d00","on-surface-variant":"#444653","inverse-primary":"#b8c4ff","on-secondary-fixed":"#002113","on-secondary-container":"#00714d","on-error":"#ffffff","tertiary-fixed":"#ffdbce","primary-fixed":"#dde1ff","secondary-fixed":"#6ffbbe","on-tertiary-fixed-variant":"#802a00","on-surface":"#191c1e","on-primary-container":"#a8b8ff","error-container":"#ffdad6","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc","on-primary":"#ffffff","secondary":"#006c49","on-tertiary-fixed":"#380d00","inverse-surface":"#2d3133","primary-container":"#1e40af","on-secondary-fixed-variant":"#005236","surface-container":"#eceef0"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-mobile":"16px","margin-desktop":"32px","base":"4px","sidebar-width":"280px","container-max":"1440px","gutter":"24px"},"fontFamily":{"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"display-lg":["Inter"],"title-md":["Inter"],"label-sm":["Inter"]},"fontSize":{"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface">
+
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <img alt="CityFix Logo" class="h-8 w-auto object-contain" th:src="@{/screen.png}"/>
+            <span class="font-title-md text-title-md text-primary tracking-tight">CityFix</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-8">
+            <a class="transition-colors"
+               th:classappend="${activePage == 'home'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+               th:href="@{/}">Home</a>
+
+            <a class="transition-colors"
+               th:classappend="${activePage == 'about'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+               th:href="@{/about}">About</a>
+
+            <a class="transition-colors"
+               th:classappend="${activePage == 'contact'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+               th:href="@{/contact}">Contact</a>
+
+            <a class="transition-colors"
+               th:classappend="${activePage == 'login'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+               th:href="@{/login}">Login</a>
+
+            <a class="bg-primary text-on-primary px-4 py-2 rounded-lg hover:bg-primary-container transition-all" th:href="@{/register}">Register</a>
+        </nav>
+    </div>
+</header>
+
+<main class="w-full pt-16 bg-background min-h-screen flex flex-col justify-center">
+    <div class="flex flex-col w-full">
+        <!-- Interactive Background Element -->
+        <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-[10%] -left-[5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px] animate-pulse"></div>
+            <div class="absolute top-[60%] -right-[10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px]" style="animation: pulse 8s infinite alternate"></div>
+        </div>
+        <div class="relative z-10 flex min-h-[calc(100vh-64px)] items-center justify-center px-margin-mobile lg:px-margin-desktop py-12">
+            <!-- Login Container -->
+            <div class="w-full max-w-[1100px] flex flex-col lg:flex-row bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden min-h-[640px]">
+                <!-- Visual Side (Hidden on Mobile) -->
+                <div class="hidden lg:flex lg:w-1/2 relative bg-primary-container items-end p-12 overflow-hidden">
+                    <div class="absolute inset-0 z-0">
+                        <div class="w-full h-full bg-cover bg-center opacity-40 mix-blend-overlay" data-alt="A clean, high-angle aerial view of a modern, well-maintained city center with green parks, organized streets, and sustainable architecture." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCaihCBdrUIThs6EDLkBfgzsVWGiq9fX-ZMwlPe7Sa7tDXn6WicGAOm39whwAsJ3Ryyo-reF6TeQPDr9WxP9kmZc0M_YQwDK4KSmS2prj0fiMIwU60c37Pz4v66filRVcBKfX5d519APVUO1Y_4Q0lGkZbSo9ZqHEjs7eEg93jozNrRli5_eTTRWbV7ubO626iVWMJp8j5371xyRTS2CJxuK4732vUausFnEUczMVAb9QD2Ca_t-wCssw')"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-on-primary/10 backdrop-blur-md">
+                            <span class="material-symbols-outlined text-on-primary text-[28px]">account_balance</span>
+                        </div>
+                        <h1 class="font-display-lg text-display-lg text-on-primary mb-4 leading-tight">Civic service,<br/>reimagined.</h1>
+                        <p class="font-body-lg text-on-primary/80 max-w-sm">Access your municipal dashboard to report issues, track resolutions, and engage with your local community infrastructure.</p>
+                        <div class="mt-12 flex items-center gap-6">
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-on-primary/60 uppercase tracking-widest mb-1">Status</span>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-secondary-fixed animate-ping"></div>
+                                    <span class="font-label-md text-on-primary">Systems Operational</span>
+                                </div>
+                            </div>
+                            <div class="h-8 w-px bg-on-primary/20"></div>
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-on-primary/60 uppercase tracking-widest mb-1">Users</span>
+                                <span class="font-label-md text-on-primary">12.4k Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Form Side -->
+                <div class="w-full lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center bg-surface-container-lowest">
+                    <div class="max-w-md mx-auto w-full">
+                        <header class="mb-10">
+                            <div class="lg:hidden mb-6">
+                                <img alt="CityFix logo" class="h-10 w-auto object-contain" th:src="@{/screen.png}"/>
+                            </div>
+                            <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome Back</h2>
+                            <p class="font-body-md text-on-surface-variant">Please enter your credentials to access the portal.</p>
+                        </header>
+
+                        <div th:if="${param.error}" class="mb-6 px-4 py-3 rounded-lg bg-error-container text-on-error-container font-label-md">
+                            Invalid email or password. Please try again.
+                        </div>
+                        <div th:if="${param.logout}" class="mb-6 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-label-md">
+                            You have been logged out successfully.
+                        </div>
+
+                        <form class="space-y-6" id="loginForm" method="post" th:action="@{/login}">
+                            <div class="space-y-1.5">
+                                <label class="font-label-md text-on-surface-variant ml-1" for="email">Email Address</label>
+                                <div class="relative group">
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors text-[20px]">mail</span>
+                                    <input class="w-full h-12 pl-12 pr-4 bg-surface-container-low rounded-lg border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all outline-none text-on-surface placeholder:text-outline" id="email" name="email" placeholder="name@agency.gov" required type="email"/>
+                                </div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between items-center px-1">
+                                    <label class="font-label-md text-on-surface-variant" for="password">Password</label>
+                                    <a class="font-label-md text-primary hover:underline decoration-2 underline-offset-4" href="#">Forgot password?</a>
+                                </div>
+                                <div class="relative group">
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors text-[20px]">lock</span>
+                                    <input class="w-full h-12 pl-12 pr-12 bg-surface-container-low rounded-lg border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all outline-none text-on-surface placeholder:text-outline" id="password" name="password" placeholder="••••••••" required type="password"/>
+                                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" onclick="togglePassword()" type="button">
+                                        <span class="material-symbols-outlined text-[20px]" id="passwordIcon">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 px-1">
+                                <div class="relative flex items-center h-5">
+                                    <input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary/20 cursor-pointer accent-primary" id="remember" type="checkbox"/>
+                                </div>
+                                <label class="font-label-md text-on-surface-variant cursor-pointer select-none" for="remember">Remember this device for 30 days</label>
+                            </div>
+                            <button class="w-full h-12 bg-primary text-on-primary font-label-md rounded-lg shadow-md hover:shadow-lg hover:bg-primary-fixed-variant transition-all transform active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+                                <span>Sign In to Portal</span>
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </button>
+                        </form>
+                        <footer class="mt-12 text-center border-t border-surface-container-high pt-8">
+                            <p class="font-body-md text-on-surface-variant">
+                                Don't have an account?
+                                <a class="text-primary font-title-md ml-1 hover:underline decoration-2 underline-offset-4" th:href="@{/register}">Create one</a>
+                            </p>
+                            <div class="mt-8 flex items-center justify-center gap-4 grayscale opacity-50">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[16px]">verified_user</span>
+                                    <span class="font-label-sm uppercase tracking-tighter">Secure Access</span>
+                                </div>
+                                <div class="w-1 h-1 rounded-full bg-outline"></div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[16px]">gavel</span>
+                                    <span class="font-label-sm uppercase tracking-tighter">Public Terms</span>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function togglePassword() {
+                const input = document.getElementById('password');
+                const icon = document.getElementById('passwordIcon');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.innerText = 'visibility_off';
+                } else {
+                    input.type = 'password';
+                    icon.innerText = 'visibility';
+                }
+            }
+        </script>
+        <style>
+            @keyframes pulse {
+                from { transform: scale(1) translate(0, 0); opacity: 0.4; }
+                to { transform: scale(1.1) translate(20px, -20px); opacity: 0.6; }
+            }
+            .form-side::-webkit-scrollbar {
+                width: 4px;
+            }
+            .form-side::-webkit-scrollbar-thumb {
+                background: #e2e8f0;
+                border-radius: 10px;
+            }
+        </style>
+    </div>
+</main>
+</body></html>
