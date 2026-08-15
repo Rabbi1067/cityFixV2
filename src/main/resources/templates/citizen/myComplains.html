@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CityFix - My Complaints</title>
+    <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col">
+    <div class="p-6 flex items-center gap-3 border-b border-outline-variant">
+        <img alt="CityFix Logo" class="h-8 w-auto" th:src="@{/screen.png}">
+        <span class="font-title-md text-title-md text-primary">CityFix</span>
+    </div>
+    <nav class="flex-1 py-6 px-4 space-y-2">
+        <a th:href="@{/citizen/dashboard}"
+           th:classappend="${activePage == 'citizen-dashboard'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+           class="flex items-center px-4 py-3 rounded-xl transition-all">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a th:href="@{/citizen/my-complaints}"
+           th:classappend="${activePage == 'my-complaints'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+           class="flex items-center px-4 py-3 rounded-xl transition-all">
+            <span class="material-symbols-outlined mr-3">list_alt</span>
+            <span class="font-label-md text-label-md">My Complaints</span>
+        </a>
+        <a th:href="@{/citizen/create-complaint}"
+           th:classappend="${activePage == 'create-complaint'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+           class="flex items-center px-4 py-3 rounded-xl transition-all">
+            <span class="material-symbols-outlined mr-3">add_circle</span>
+            <span class="font-label-md text-label-md">Create Complaint</span>
+        </a>
+        <a th:href="@{/citizen/profile}"
+           th:classappend="${activePage == 'profile'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+           class="flex items-center px-4 py-3 rounded-xl transition-all">
+            <span class="material-symbols-outlined mr-3">person</span>
+            <span class="font-label-md text-label-md">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-outline-variant">
+        <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-xl text-error hover:bg-error-container transition-all">
+            <span class="material-symbols-outlined mr-3">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<div class="pl-sidebar-width">
+    <header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-between px-margin-desktop">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">list_alt</span>
+            <div class="flex flex-col leading-tight">
+                <span class="font-label-md text-label-md text-on-surface">My Complaints</span>
+                <span class="text-label-sm text-on-surface-variant">Track your submitted reports</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+            <!--
+                Dynamic logged-in user: replace `loggedInUser` below with whatever
+                model attribute / principal object your backend actually exposes
+                (e.g. session user, Spring Security principal, etc.).
+                Elvis operator (?:) falls back gracefully if a field is null.
+            -->
+            <a th:href="@{/citizen/profile}" class="flex items-center gap-3 border-l border-outline-variant pl-6 cursor-pointer hover:opacity-80 transition-opacity">
+        <span class="hidden md:block text-right">
+          <p class="text-label-md font-bold text-on-surface" th:text="${citizen.name}">Jane Citizen</p>
+          <p class="text-label-sm text-on-surface-variant">Citizen User</p>
+        </span>
+                <img alt="Profile"
+                     class="w-9 h-9 rounded-full object-cover border border-outline-variant shadow-sm"
+                     id="header-avatar"
+                     th:src="@{${citizen.profileImagePath != null ? citizen.profileImagePath : '/profile1.jpg'}}">
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-16 min-h-screen bg-surface">
+        <div class="flex flex-col w-full px-margin-desktop py-8">
+
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 mb-1">
+                        <span class="w-8 h-[2px] bg-primary"></span>
+                        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Citizen Portal</span>
+                    </div>
+                    <h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">My Complaints</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Track and manage your submitted reports. Stay updated on the progress of civic improvements in your neighborhood.</p>
+                </div>
+
+                <!-- Redesigned stat cards: icon-badge style instead of flat color blocks -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition-shadow min-w-[160px]">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary">pending_actions</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Active</span>
+                            <span class="font-display-lg text-headline-lg text-on-surface leading-none" th:text="${activeCount}">0</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-surface-container-lowest border border-outline-variant/40 rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition-shadow min-w-[160px]">
+                        <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-secondary">task_alt</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Resolved</span>
+                            <span class="font-display-lg text-headline-lg text-on-surface leading-none" th:text="${resolvedCount}">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Search Bar (fully client-side now: live-filters as you type, no page reload, no crash) -->
+            <div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm mb-6 flex flex-wrap items-center gap-4 border border-outline-variant/30">
+                <div class="flex-1 min-w-[300px] relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input class="w-full pl-12 pr-10 py-3 bg-surface border border-outline-variant rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface"
+                           id="keywordInput" placeholder="Search by title, category, or location..." type="text" autocomplete="off">
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer hidden" id="clearKeywordIcon">close</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <select class="bg-surface border border-outline-variant px-4 py-3 rounded-xl font-label-md text-on-surface focus:outline-none cursor-pointer hover:bg-surface-container-high transition-colors" id="categorySelect">
+                        <option value="">All Categories</option>
+                        <option value="Roads">Roads &amp; Pavements</option>
+                        <option value="Sanitation">Sanitation &amp; Waste</option>
+                        <option value="Lighting">Public Lighting</option>
+                        <option value="Parks">Parks &amp; Recreation</option>
+                        <option value="Water">Water &amp; Sewage</option>
+                        <option value="Other">Other Issues</option>
+                    </select>
+                    <select class="bg-surface border border-outline-variant px-4 py-3 rounded-xl font-label-md text-on-surface focus:outline-none cursor-pointer hover:bg-surface-container-high transition-colors" id="statusSelect">
+                        <option value="">Status</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="RESOLVED">Resolved</option>
+                    </select>
+                    <!-- Filters already apply live/automatically now, so this button just clears them -->
+                    <button class="flex items-center gap-2 px-6 py-3 bg-surface border border-outline-variant text-on-surface-variant rounded-xl font-label-md hover:bg-error-container hover:text-error hover:border-error/30 transition-all active:scale-95" id="clearFiltersBtn" type="button">
+                        <span class="material-symbols-outlined text-[20px]">filter_alt_off</span>
+                        Remove Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="bg-surface-container-lowest rounded-3xl shadow-xl overflow-hidden border border-outline-variant/20">
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse text-left" id="complaintsTable">
+                        <thead>
+                        <tr class="bg-surface-container-high border-b border-outline-variant/50">
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Subject</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Priority</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-5 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/20" id="complaintsBody">
+                        <tr class="hover:bg-surface-container transition-colors group js-complaint-row"
+                            th:each="complaint : ${complaints}"
+                            th:attr="data-title=${complaint.title},
+                                      data-category=${complaint.category},
+                                      data-location=${complaint.location != null ? complaint.location : ''},
+                                      data-status=${complaint.status != null ? complaint.status.name() : 'PENDING'}">
+                            <td class="px-6 py-5 font-label-md text-on-surface-variant" th:text="'#' + ${complaint.id}">#10492</td>
+                            <td class="px-6 py-5">
+                                <span class="font-title-md text-on-surface group-hover:text-primary transition-colors" th:text="${complaint.title}">Subject</span>
+                            </td>
+                            <td class="px-6 py-5">
+                <span class="inline-flex items-center gap-1.5 font-body-md text-on-surface-variant">
+                  <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                  <span th:text="${complaint.category}">Category</span>
+                </span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span th:switch="${complaint.status != null ? complaint.status.name() : 'PENDING'}" class="text-label-sm font-bold uppercase tracking-tighter">
+                                    <span th:case="'RESOLVED'" class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full inline-block">Resolved</span>
+                                    <span th:case="'IN_PROGRESS'" class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full inline-block">In Progress</span>
+                                    <span th:case="*" class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full inline-block">Pending</span>
+                                </span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]"
+                                          th:classappend="${complaint.priority.name() == 'CRITICAL' or complaint.priority.name() == 'HIGH'} ? 'text-error' : ''"
+                                          style="color:#757684;">priority_high</span>
+                                    <span class="font-label-md" th:text="${complaint.priority}">Medium</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 font-body-md text-on-surface-variant"
+                                th:text="${#temporals.format(complaint.createdAt, 'MMM dd, yyyy')}">Oct 24, 2023</td>
+                            <td class="px-6 py-5 text-right">
+                                <a class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-primary font-label-md hover:bg-primary/5 transition-all"
+                                   th:href="@{'/citizen/complaints/' + ${complaint.id} + '/view'}">
+                                    View Details
+                                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${complaints.isEmpty()}" id="emptyStateRow">
+                            <td class="px-6 py-10 text-center text-on-surface-variant" colspan="7">No complaints found. Try adjusting your filters.</td>
+                        </tr>
+                        <!-- Shown by JS when filters match zero rows (server list wasn't empty, but filters excluded everything) -->
+                        <tr id="noMatchRow" style="display:none;">
+                            <td class="px-6 py-10 text-center text-on-surface-variant" colspan="7">No complaints match your search. Try different keywords or remove filters.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination Footer (client-side, 5 per page, filter-aware) -->
+                <div class="p-6 bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between">
+                    <p class="font-label-md text-on-surface-variant" id="jsPageInfo">Page 1 of 1</p>
+                    <div class="flex items-center gap-2">
+                        <a class="p-2 rounded-lg border border-outline-variant hover:bg-surface transition-colors cursor-pointer" id="jsPrevBtn">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </a>
+                        <div class="flex items-center gap-2" id="jsPageNumbers"></div>
+                        <a class="p-2 rounded-lg border border-outline-variant hover:bg-surface transition-colors cursor-pointer" id="jsNextBtn">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-primary/5 flex flex-col gap-3">
+                    <span class="material-symbols-outlined text-primary">info</span>
+                    <h3 class="font-title-md text-on-surface">Need Help?</h3>
+                    <p class="font-body-md text-on-surface-variant">If you have questions about your report status, you can contact the city help desk directly.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-secondary-container/10 flex flex-col gap-3">
+                    <span class="material-symbols-outlined text-secondary">update</span>
+                    <h3 class="font-title-md text-on-surface">Update Frequency</h3>
+                    <p class="font-body-md text-on-surface-variant">Most reports are reviewed within 24-48 business hours.</p>
+                </div>
+                <div class="relative overflow-hidden p-6 rounded-2xl bg-surface-container-highest flex flex-col justify-end min-h-[160px]">
+                    <p class="font-label-sm text-on-surface-variant uppercase mb-1">New Report</p>
+                    <h3 class="font-title-md text-on-surface mb-3">Notice something else?</h3>
+                    <a class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-center" th:href="@{/citizen/create-complaint}">Create Complaint</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script th:inline="javascript">
+    // The profile photo picker on the Profile page only saves to this browser's
+    // localStorage (it isn't persisted to the server / citizen.profileImagePath),
+    // so every page's header avatar needs to check that same key to stay in sync.
+    (function () {
+        const avatarKey = 'cityfix-avatar-' + /*[[${citizen.email}]]*/ '';
+        const savedAvatar = localStorage.getItem(avatarKey);
+        if (savedAvatar) {
+            document.getElementById('header-avatar').src = savedAvatar;
+        }
+    })();
+</script>
+
+<script>
+    (function () {
+        const rowsPerPage = 5;
+        const tbody = document.getElementById('complaintsBody');
+        const allRows = Array.from(tbody.querySelectorAll('tr.js-complaint-row'));
+        const noMatchRow = document.getElementById('noMatchRow');
+
+        const keywordInput = document.getElementById('keywordInput');
+        const clearKeywordIcon = document.getElementById('clearKeywordIcon');
+        const categorySelect = document.getElementById('categorySelect');
+        const statusSelect = document.getElementById('statusSelect');
+        const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+
+        const pageInfo = document.getElementById('jsPageInfo');
+        const prevBtn = document.getElementById('jsPrevBtn');
+        const nextBtn = document.getElementById('jsNextBtn');
+        const pageNumbers = document.getElementById('jsPageNumbers');
+
+        let currentPage = 0;
+
+        // If the server sent zero complaints at all, there's nothing to filter/paginate.
+        if (allRows.length === 0) {
+            pageInfo.textContent = 'Page 1 of 1';
+            prevBtn.classList.add('opacity-50', 'pointer-events-none');
+            nextBtn.classList.add('opacity-50', 'pointer-events-none');
+            return;
+        }
+
+        function getVisibleRows() {
+            // "Visible" = matches the current keyword/category/status filters.
+            return allRows.filter(row => row.dataset.filteredOut !== 'true');
+        }
+
+        // Recomputes which rows match the current filters. Safe to call on every
+        // keystroke -- pure string comparisons, no reload, so it can never "crash"
+        // mid-type the way a debounced form.submit() could.
+        function applyFilters() {
+            const kw = keywordInput.value.trim().toLowerCase();
+            const cat = categorySelect.value;
+            const stat = statusSelect.value;
+
+            allRows.forEach(row => {
+                const title = (row.dataset.title || '').toLowerCase();
+                const category = row.dataset.category || '';
+                const location = (row.dataset.location || '').toLowerCase();
+                const status = row.dataset.status || '';
+
+                const matchesKeyword = !kw || title.includes(kw) || category.toLowerCase().includes(kw) || location.includes(kw);
+                const matchesCategory = !cat || category === cat;
+                const matchesStatus = !stat || status === stat;
+
+                row.dataset.filteredOut = (matchesKeyword && matchesCategory && matchesStatus) ? 'false' : 'true';
+            });
+
+            clearKeywordIcon.classList.toggle('hidden', kw.length === 0);
+            currentPage = 0;
+            renderPage();
+        }
+
+        function renderPageNumbers(totalPages) {
+            pageNumbers.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const btn = document.createElement('a');
+                btn.textContent = i + 1;
+                btn.className = 'w-10 h-10 flex items-center justify-center rounded-lg font-label-md transition-colors cursor-pointer ' +
+                    (i === currentPage ? 'bg-primary text-on-primary' : 'hover:bg-surface-container-high');
+                btn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderPage();
+                });
+                pageNumbers.appendChild(btn);
+            }
+        }
+
+        function renderPage() {
+            const visibleRows = getVisibleRows();
+            const totalPages = Math.max(1, Math.ceil(visibleRows.length / rowsPerPage));
+            currentPage = Math.min(currentPage, totalPages - 1);
+
+            // Hide every row first, then reveal only the current page's matches.
+            allRows.forEach(row => { row.style.display = 'none'; });
+            visibleRows.forEach((row, i) => {
+                row.style.display = (i >= currentPage * rowsPerPage && i < (currentPage + 1) * rowsPerPage) ? '' : 'none';
+            });
+
+            noMatchRow.style.display = visibleRows.length === 0 ? '' : 'none';
+
+            pageInfo.textContent = visibleRows.length === 0
+                ? 'No results'
+                : `Page ${currentPage + 1} of ${totalPages}`;
+
+            prevBtn.classList.toggle('opacity-50', currentPage === 0 || visibleRows.length === 0);
+            prevBtn.classList.toggle('pointer-events-none', currentPage === 0 || visibleRows.length === 0);
+            nextBtn.classList.toggle('opacity-50', currentPage >= totalPages - 1 || visibleRows.length === 0);
+            nextBtn.classList.toggle('pointer-events-none', currentPage >= totalPages - 1 || visibleRows.length === 0);
+
+            renderPageNumbers(totalPages);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const totalPages = Math.max(1, Math.ceil(getVisibleRows().length / rowsPerPage));
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                renderPage();
+            }
+        });
+
+        // Live filtering: every keystroke (typing or deleting) just re-filters
+        // the in-memory rows -- no form submit, no page reload.
+        keywordInput.addEventListener('input', applyFilters);
+        categorySelect.addEventListener('change', applyFilters);
+        statusSelect.addEventListener('change', applyFilters);
+
+        clearKeywordIcon.addEventListener('click', () => {
+            keywordInput.value = '';
+            applyFilters();
+            keywordInput.focus();
+        });
+
+        clearFiltersBtn.addEventListener('click', () => {
+            keywordInput.value = '';
+            categorySelect.value = '';
+            statusSelect.value = '';
+            applyFilters();
+        });
+
+        // Initial paint
+        allRows.forEach(row => { row.dataset.filteredOut = 'false'; });
+        renderPage();
+    })();
+</script>
+
+</body>
+</html>

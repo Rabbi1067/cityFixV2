@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"></head><body class="bg-surface font-body-md text-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-3"><img alt="CityFix Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1qIprtHsaC--pSuLEUYQ0qnbbdv-J-zjj09JJtxiRjbd-gTDFXENKML1Fup_WBnV1lpBzifb1APRRU5OWAei33kNGiPoo4rwW9rOwcCK1o3_0-QIVJYwWczyaknvOlDkDQpA5WaAeX-3taGd7RXaZ_kJK8MRx9lPO_lF99gRHrsF3hgvl6p7-Q0gmndb3YjNRf9RJ5iy-K5OsdpbtKoi_nw71OaU6c4JlL9UKEj5ImPeDa_VLXb9UQ"><span class="font-title-md text-title-md text-primary tracking-tight">CityFix</span></div>
+    <nav class="hidden md:flex items-center gap-8">
+        <a class="transition-colors"
+           th:classappend="${activePage == 'home'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/}">Home</a>
+
+        <a class="transition-colors"
+           th:classappend="${activePage == 'about'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/about}">About</a>
+
+        <a class="transition-colors"
+           th:classappend="${activePage == 'contact'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/contact}">Contact</a>
+
+        <a class="transition-colors"
+           th:classappend="${activePage == 'login'} ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'"
+           th:href="@{/login}">Login</a>
+
+        <a class="bg-primary text-on-primary px-4 py-2 rounded-lg hover:bg-primary-container transition-all" th:href="@{/register}">Register</a>
+    </nav>
+</div>
+</header><main class="w-full pt-16 bg-surface">
+    <div class="flex flex-col w-full">
+        <!-- Hero Section: Immersive Overlap -->
+        <section class="relative w-full h-[614px] flex items-center overflow-hidden -mt-16">
+            <div class="absolute inset-0 z-0">
+                <div class="bg-cover bg-center w-full h-full scale-105" data-alt="A cinematic, wide-angle shot of a modern, clean city skyline at golden hour. The architecture is a mix of glass skyscrapers and green urban spaces. The lighting is warm and hopeful, symbolizing a bright future for urban living. The atmosphere is crisp and organized, reflecting the efficiency of CityFix." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAe-RSycEvYmaUstGquhtexQ_sWr_BxC5d1GeEyMWx4bDROL-BR-eSqZWPuomqi4IiCp5RTfaHBau3H-zp4V91-OZRuVYwDtX0VXfhgFV33ruiGKIdBANxFNDccvG_CN36JCVK24_sBDg7BpdLY4lFJVgfHAuFVzYT9qyRysACmj3ccM0K-izRJ3R2fah5afZFUs1l5RNsfdF9Ol0auz004JaY19o1Ywaj-iiLyC4jKsPJUVTCkZ9GwlQ')"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/40 to-transparent"></div>
+            </div>
+            <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop pt-16">
+                <div class="max-w-2xl">
+                    <span class="font-label-md text-label-md text-secondary-fixed uppercase tracking-[0.2em] mb-4 block">Building Better Cities</span>
+                    <h1 class="font-display-lg text-display-lg text-on-primary mb-6">About CityFix</h1>
+                    <p class="font-body-lg text-body-lg text-primary-fixed/90 leading-relaxed">
+                        CityFix is more than a reporting tool; it's a bridge between the heartbeat of the streets and the halls of governance. We empower citizens to act as the eyes and ears of their community, ensuring every pothole, dark alley, and overflow is addressed with precision.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- Statistics Mosaic -->
+        <section class="relative z-20 -mt-24 px-margin-mobile lg:px-margin-desktop max-w-container-max mx-auto w-full">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter">
+                <div class="bg-surface-container-lowest p-8 shadow-xl rounded-xl group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-primary mb-2"><span class="material-symbols-outlined text-4xl">groups</span></div>
+                    <div class="font-display-lg text-display-lg text-on-surface" id="stat-citizens">250k+</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Citizens</div>
+                </div>
+                <div class="bg-surface-container-lowest p-8 shadow-xl rounded-xl group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-primary mb-2"><span class="material-symbols-outlined text-4xl">description</span></div>
+                    <div class="font-display-lg text-display-lg text-on-surface" id="stat-complaints">1M</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Reports Logged</div>
+                </div>
+                <div class="bg-surface-container-lowest p-8 shadow-xl rounded-xl group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-secondary mb-2"><span class="material-symbols-outlined text-4xl">verified</span></div>
+                    <div class="font-display-lg text-display-lg text-on-surface" id="stat-resolved">94%</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Resolution Rate</div>
+                </div>
+                <div class="bg-surface-container-lowest p-8 shadow-xl rounded-xl group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="text-primary mb-2"><span class="material-symbols-outlined text-4xl">bolt</span></div>
+                    <div class="font-display-lg text-display-lg text-on-surface" id="stat-active">45k</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Daily Active Users</div>
+                </div>
+            </div>
+        </section>
+        <!-- Mission & Vision: Split Layout -->
+        <section class="py-24 px-margin-mobile lg:px-margin-desktop max-w-container-max mx-auto w-full">
+            <div class="flex flex-col lg:flex-row gap-24 items-center">
+                <div class="lg:w-1/2 space-y-12">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="h-px w-12 bg-primary"></div>
+                            <span class="font-label-md text-label-md text-primary uppercase tracking-widest">Our Purpose</span>
+                        </div>
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Our Mission</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant">To democratize urban maintenance by providing every citizen with an intuitive platform to report infrastructure issues, ensuring transparent workflows and accountable municipal responses.</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="h-px w-12 bg-secondary"></div>
+                            <span class="font-label-md text-label-md text-secondary uppercase tracking-widest">The Future</span>
+                        </div>
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Our Vision</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant">We envision a world where "smart cities" are defined by the responsiveness of their leaders and the engagement of their people, creating resilient, clean, and safe urban environments globally.</p>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative">
+                    <div class="aspect-square rounded-full overflow-hidden shadow-2xl">
+                        <div class="w-full h-full bg-cover bg-center" data-alt="A diverse group of city planners and community members looking at a large digital map of a city on a glass wall. They are pointing at data points and collaborating with smiles. Professional, tech-forward, and collaborative atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLaumPMOL7OPAexAtlnXl25Iz5OMKPExamyhVom3Gr9mqwf2nd8w15DvPHvkRXM45AHUwYRG7XaN1-SoAFRLmMhJ7jRHZD9SMLTKXe5PfcGSrOavoRkHjk2pW6np63a4jsDdKbGwCFDbbMmK9xY0Lhr34DrdRAk-cs2UlRR6yVpNHPeYFfTkAKMICVJV67haItYtLryqoTUBU_1nbXs9UU5PYLQQkc3VyZCJZPn1gIMWdWfVOZ9GUhJQ')"></div>
+                    </div>
+                    <div class="absolute -bottom-8 -left-8 bg-primary p-8 rounded-2xl shadow-xl hidden lg:block">
+                        <span class="material-symbols-outlined text-on-primary text-6xl">handshake</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Services Bento Grid -->
+        <section class="py-24 bg-surface-container-low">
+            <div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop">
+                <div class="text-center mb-16">
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Comprehensive Civic Services</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Whatever the issue, we have a dedicated pipeline to resolve it.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4">construction</span>
+                        <h3 class="font-title-md text-title-md mb-2">Road Damage</h3>
+                        <p class="text-label-md text-on-surface-variant">Potholes, cracks, and structural road failures reported instantly.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4">lightbulb</span>
+                        <h3 class="font-title-md text-title-md mb-2">Street Lights</h3>
+                        <p class="text-label-md text-on-surface-variant">Fixing outages to keep our neighborhoods bright and safe.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4">delete</span>
+                        <h3 class="font-title-md text-title-md mb-2">Waste</h3>
+                        <p class="text-label-md text-on-surface-variant">Optimizing collection and addressing illegal dumping sites.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4">water_drop</span>
+                        <h3 class="font-title-md text-title-md mb-2">Water Supply</h3>
+                        <p class="text-label-md text-on-surface-variant">Reporting leaks and contamination for clean water access.</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4">shield</span>
+                        <h3 class="font-title-md text-title-md mb-2">Public Safety</h3>
+                        <p class="text-label-md text-on-surface-variant">Flagging hazards and safety concerns for immediate action.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Why Choose Us -->
+        <section class="py-24 px-margin-mobile lg:px-margin-desktop max-w-container-max mx-auto w-full">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="w-full aspect-video rounded-3xl shadow-2xl bg-cover bg-center" data-alt="A sleek close-up of a mobile phone screen showing the CityFix app interface. The UI is clean, showing a dashboard with real-time status updates like 'In Progress' and 'Resolved'. Soft, professional office lighting in the background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChRX9Mt4poC32nalYgRHFAUg4YkwveKh54Ec2d72EU9SdGtB2Rc6XoIFOOxsLBBA1vLaO1zKP_IvDp8hETHIXpMItWIQKEbtEPh5ArGGyL_559nh2LsBAu0yGZrtBDNFSjTekP0bSjEEpZY8BEYqI7c2y45Yc36xB9OzQlSJek-Fd-foZATONtGCKJ1Q9svVT5SVdL8Ms9UyLeIMAiJpa6rwIxSjVU0oS2T3QX2itcyLdKMGqGCBU-vg')"></div>
+                </div>
+                <div class="order-1 lg:order-2 space-y-8">
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface">Why the community <br>trusts CityFix</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="bg-primary/10 p-3 rounded-lg self-start">
+                                <span class="material-symbols-outlined text-primary">speed</span>
+                            </div>
+                            <div>
+                                <h4 class="font-title-md text-title-md mb-1">Fast Tracking</h4>
+                                <p class="text-body-md text-on-surface-variant">Automated routing ensures your report reaches the right department in seconds.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-primary/10 p-3 rounded-lg self-start">
+                                <span class="material-symbols-outlined text-primary">visibility</span>
+                            </div>
+                            <div>
+                                <h4 class="font-title-md text-title-md mb-1">Total Transparency</h4>
+                                <p class="text-body-md text-on-surface-variant">Track every stage of your complaint from submission to final resolution.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-primary/10 p-3 rounded-lg self-start">
+                                <span class="material-symbols-outlined text-primary">touch_app</span>
+                            </div>
+                            <div>
+                                <h4 class="font-title-md text-title-md mb-1">Easy to Use</h4>
+                                <p class="text-body-md text-on-surface-variant">Clean design built for everyone, regardless of technical skill level.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-primary/10 p-3 rounded-lg self-start">
+                                <span class="material-symbols-outlined text-primary">lock</span>
+                            </div>
+                            <div>
+                                <h4 class="font-title-md text-title-md mb-1">Bank-Grade Security</h4>
+                                <p class="text-body-md text-on-surface-variant">Your data is encrypted and managed with strict privacy compliance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Team Section -->
+        <section class="py-24 bg-surface-container">
+            <div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                    <div class="max-w-xl">
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">The Minds Behind CityFix</h2>
+                        <p class="text-body-md text-on-surface-variant">Our dedicated administration team works tirelessly to bridge the gap between technology and urban management.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter max-w-3xl mx-auto">
+                    <!-- Team Member 1 -->
+                    <div class="group">
+                        <div class="relative aspect-[3/4] rounded-2xl overflow-hidden mb-4 shadow-lg">
+                            <img alt="Md Fazley Rabbi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="/Fazley rabbi.jpg">
+                        </div>
+                        <h4 class="font-title-md text-title-md text-on-surface">Md Fazley Rabbi</h4>
+                        <p class="text-label-md text-on-surface-variant mb-3">Chief Operations Officer</p>
+                        <div class="flex gap-3">
+                            <a aria-label="GitHub" class="text-on-surface-variant hover:text-primary transition-colors" href="https://github.com/Rabbi1067" rel="noopener noreferrer" target="_blank">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+                            </a>
+                            <a aria-label="LinkedIn" class="text-on-surface-variant hover:text-primary transition-colors" href="https://www.linkedin.com/in/fazleyrabbi1067/" rel="noopener noreferrer" target="_blank">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Team Member 2 -->
+                    <div class="group">
+                        <div class="relative aspect-[3/4] rounded-2xl overflow-hidden mb-4 shadow-lg">
+                            <img alt="Asaduzzaman Noor" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="/Asaduzzaman noor.jpg">
+                        </div>
+                        <h4 class="font-title-md text-title-md text-on-surface">Asaduzzaman Noor</h4>
+                        <p class="text-label-md text-on-surface-variant mb-3">Technical Lead</p>
+                        <div class="flex gap-3">
+                            <a aria-label="GitHub" class="text-on-surface-variant hover:text-primary transition-colors" href="https://github.com/noor017" rel="noopener noreferrer" target="_blank">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+                            </a>
+                            <a aria-label="LinkedIn" class="text-on-surface-variant hover:text-primary transition-colors" href="https://www.linkedin.com/in/noor01747/" rel="noopener noreferrer" target="_blank">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.56V9h3.554v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section: Impactful -->
+        <section class="py-24 px-margin-mobile lg:px-margin-desktop">
+            <div class="bg-primary rounded-[2rem] p-12 lg:p-24 overflow-hidden relative shadow-2xl">
+                <!-- Decorative Element -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-secondary/20 rounded-full blur-[100px] -mr-48 -mt-48"></div>
+                <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+                    <h2 class="font-display-lg text-display-lg text-on-primary mb-6">Ready to join the movement?</h2>
+                    <p class="font-body-lg text-body-lg text-on-primary/80 mb-10">
+                        Your neighborhood is waiting for a champion. Take the first step toward a cleaner, safer city today by reporting an issue or exploring existing requests.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a class="bg-on-primary text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-secondary-container transition-all flex items-center gap-2 shadow-lg" href="#">
+                            <span class="material-symbols-outlined">report</span> Report an Issue
+                        </a>
+                        <a class="border-2 border-on-primary/30 text-on-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-on-primary/10 transition-all" href="#">
+                            View Map
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            // Micro-interaction for statistic counting
+            const animateValue = (id, start, end, duration) => {
+                const obj = document.getElementById(id);
+                if (!obj) return;
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    obj.innerHTML = value + (id === 'stat-resolved' ? '%' : (id === 'stat-citizens' ? 'k+' : (id === 'stat-complaints' ? 'M' : 'k')));
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            };
+
+            // Trigger on scroll or immediate if in view
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    animateValue('stat-citizens', 0, 250, 2000);
+                    animateValue('stat-complaints', 0, 1, 1500); // simplified for mockup
+                    animateValue('stat-resolved', 0, 94, 2500);
+                    animateValue('stat-active', 0, 45, 2000);
+                }, 500);
+            });
+        </script>
+    </div></main><footer class="bg-surface-container-low border-t border-outline-variant py-12 mt-12"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex flex-col md:flex-row justify-between items-start gap-8"><div class="max-w-xs"><div class="flex items-center gap-2 mb-4"><img alt="CityFix Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1qIprtHsaC--pSuLEUYQ0qnbbdv-J-zjj09JJtxiRjbd-gTDFXENKML1Fup_WBnV1lpBzifb1APRRU5OWAei33kNGiPoo4rwW9rOwcCK1o3_0-QIVJYwWczyaknvOlDkDQpA5WaAeX-3taGd7RXaZ_kJK8MRx9lPO_lF99gRHrsF3hgvl6p7-Q0gmndb3YjNRf9RJ5iy-K5OsdpbtKoi_nw71OaU6c4JlL9UKEj5ImPeDa_VLXb9UQ"><span class="font-title-md text-title-md text-primary">CityFix</span></div><p class="text-on-surface-variant text-label-md">Empowering citizens to build smarter, cleaner cities through transparent reporting and efficient governance.</p></div><div class="flex gap-12"><div class="flex flex-col gap-2"> <span class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-2">Information</span><a class="text-on-surface-variant hover:text-primary" href="#">Privacy Policy</a><a class="text-on-surface-variant hover:text-primary" href="#">Terms of Service</a></div><div class="flex flex-col gap-2"> <span class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-2">Support</span><a class="text-on-surface-variant hover:text-primary" href="#">Help Center</a><a class="text-on-surface-variant hover:text-primary" href="#">Contact Us</a></div></div><div class="flex gap-4"><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">public</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">forum</span><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">mail</span></div></div><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-12 pt-8 border-t border-outline-variant text-center text-on-surface-variant text-label-sm">© 2024 CityFix Smart Systems. All rights reserved.</div></footer>
+
+
+
+</body></html>

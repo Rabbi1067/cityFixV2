@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CityFix - Citizen Dashboard</title>
+  <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col">
+  <div class="p-6 flex items-center gap-3 border-b border-outline-variant">
+    <img alt="CityFix Logo" class="h-8 w-auto" th:src="@{/screen.png}">
+    <span class="font-title-md text-title-md text-primary">CityFix</span>
+  </div>
+  <nav class="flex-1 py-6 px-4 space-y-2">
+    <a th:href="@{/citizen/dashboard}"
+       th:classappend="${activePage == 'citizen-dashboard'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+       class="flex items-center px-4 py-3 rounded-xl transition-all">
+      <span class="material-symbols-outlined mr-3">dashboard</span>
+      <span class="font-label-md text-label-md">Dashboard</span>
+    </a>
+    <a th:href="@{/citizen/my-complaints}"
+       th:classappend="${activePage == 'my-complaints'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+       class="flex items-center px-4 py-3 rounded-xl transition-all">
+      <span class="material-symbols-outlined mr-3">list_alt</span>
+      <span class="font-label-md text-label-md">My Complaints</span>
+    </a>
+    <a th:href="@{/citizen/create-complaint}"
+       th:classappend="${activePage == 'create-complaint'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+       class="flex items-center px-4 py-3 rounded-xl transition-all">
+      <span class="material-symbols-outlined mr-3">add_circle</span>
+      <span class="font-label-md text-label-md">Create Complaint</span>
+    </a>
+    <a th:href="@{/citizen/profile}"
+       th:classappend="${activePage == 'profile'} ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'"
+       class="flex items-center px-4 py-3 rounded-xl transition-all">
+      <span class="material-symbols-outlined mr-3">person</span>
+      <span class="font-label-md text-label-md">Profile</span>
+    </a>
+  </nav>
+  <div class="p-4 mt-auto border-t border-outline-variant">
+    <a th:href="@{/logout}" class="flex items-center px-4 py-3 rounded-xl text-error hover:bg-error-container transition-all">
+      <span class="material-symbols-outlined mr-3">logout</span>
+      <span class="font-label-md text-label-md">Logout</span>
+    </a>
+  </div>
+</aside>
+
+<div class="pl-sidebar-width">
+  <!-- Search bar removed. Header now just shows the logged-in citizen's name + avatar (kept in sync with the
+       localStorage-based avatar preview from the Profile page, same as my-complaints.html / profile.html) -->
+  <header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-end px-margin-desktop">
+    <a th:href="@{/citizen/profile}" class="flex items-center gap-3 border-l border-outline-variant pl-6 cursor-pointer hover:opacity-80 transition-opacity">
+      <span class="hidden md:block text-right">
+        <p class="text-label-md font-bold text-on-surface" id="header-name" th:text="${citizen?.name ?: 'Citizen'}">Citizen</p>
+        <p class="text-label-sm text-on-surface-variant">Citizen User</p>
+      </span>
+      <img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-outline-variant shadow-sm" id="header-avatar"
+           th:src="@{${citizen?.profileImagePath ?: '/profile1.jpg'}}">
+    </a>
+  </header>
+
+  <main class="pt-16 min-h-screen bg-surface">
+    <div class="flex flex-col w-full">
+
+      <!-- Header Summary Section -->
+      <section class="px-margin-desktop py-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div class="max-w-2xl">
+            <p class="font-label-md text-label-md text-primary mb-2 uppercase tracking-widest">Citizen Overview</p>
+            <!-- Fixed: this heading no longer carries the "text-display-lg" class, so the counter-animation
+                 script (which targets that class) can no longer overwrite the name with NaN. -->
+            <h1 class="font-display-lg font-bold text-on-surface whitespace-nowrap" style="font-size: clamp(20px, 4vw, 48px); line-height: 1.2;">
+              Welcome back, <span id="welcome-name" th:text="${citizen?.name ?: 'Citizen'}">Citizen</span>
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mt-4">
+              Thank you for helping improve
+              <span class="text-secondary font-bold" id="welcome-city"
+                    th:text="${citizen?.address?.city ?: 'your city'}">your city</span>.
+              Here is the current status of your reports.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <a th:href="@{/citizen/create-complaint}" class="flex items-center px-6 py-3 rounded-full bg-primary text-on-primary font-label-md hover:shadow-xl transition-all hover:-translate-y-1">
+              <span class="material-symbols-outlined mr-2">add_circle</span>
+              Create New Report
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric Grid: trimmed down to the 4 most relevant stats (Total, Pending, Working, Resolved) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+          <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+              <span class="p-2 rounded-lg bg-surface-container text-on-surface-variant">
+                <span class="material-symbols-outlined">analytics</span>
+              </span>
+            </div>
+            <p class="text-display-lg font-display-lg text-on-surface" id="stat-total" th:text="${totalCount}">0</p>
+            <p class="text-label-sm font-label-sm text-on-surface-variant uppercase mt-1">Total Filed</p>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+              <span class="p-2 rounded-lg bg-tertiary-fixed text-tertiary">
+                <span class="material-symbols-outlined">hourglass_empty</span>
+              </span>
+            </div>
+            <p class="text-display-lg font-display-lg text-tertiary" id="stat-pending" th:text="${pendingCount}">0</p>
+            <p class="text-label-sm font-label-sm text-tertiary uppercase mt-1">Pending</p>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+              <span class="p-2 rounded-lg bg-secondary-container text-on-secondary-container">
+                <span class="material-symbols-outlined">engineering</span>
+              </span>
+            </div>
+            <p class="text-display-lg font-display-lg text-on-secondary-container" id="stat-working" th:text="${workingCount}">0</p>
+            <p class="text-label-sm font-label-sm text-on-secondary-container uppercase mt-1">Working</p>
+          </div>
+          <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-b-4 border-secondary">
+            <div class="flex justify-between items-start mb-4">
+              <span class="p-2 rounded-lg bg-secondary/10 text-secondary">
+                <span class="material-symbols-outlined">check_circle</span>
+              </span>
+            </div>
+            <p class="text-display-lg font-display-lg text-secondary" id="stat-resolved" th:text="${resolvedCount}">0</p>
+            <p class="text-label-sm font-label-sm text-secondary uppercase mt-1">Resolved</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content Area -->
+      <section class="px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter pb-16">
+        <!-- Left: Trend & Activity (both rendered dynamically via JS below, from real backend data) -->
+        <div class="lg:col-span-8 flex flex-col gap-gutter">
+          <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+            <div class="flex justify-between items-center mb-8">
+              <div>
+                <h3 class="font-headline-lg text-headline-lg text-on-surface">Activity Trend</h3>
+                <p class="text-label-md font-label-md text-on-surface-variant">Complaint filing frequency over the last 6 months</p>
+              </div>
+              <div class="flex gap-2">
+                <button class="p-2 hover:bg-surface-container rounded-lg transition-colors"><span class="material-symbols-outlined text-on-surface-variant">download</span></button>
+                <button class="p-2 hover:bg-surface-container rounded-lg transition-colors"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></button>
+              </div>
+            </div>
+            <div class="w-full h-80 relative bg-surface-container/30 rounded-xl flex items-end justify-between px-8 pb-4" id="trend-chart">
+              <!-- Bars injected by JS from real trendLabels/trendValues -->
+            </div>
+            <div class="flex justify-between mt-4 px-8 text-label-sm text-on-surface-variant uppercase tracking-widest" id="trend-labels">
+              <!-- Month labels injected by JS -->
+            </div>
+          </div>
+
+          <div class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+            <h3 class="font-headline-lg text-headline-lg text-on-surface mb-8">Recent Activity</h3>
+            <div class="space-y-8 relative" id="recent-activity-list">
+              <!-- Timeline items injected by JS from real recentActivities -->
+            </div>
+            <a th:href="@{/citizen/my-complaints}" class="block text-center w-full mt-10 py-4 font-label-md text-primary bg-primary/5 rounded-xl hover:bg-primary/10 transition-colors">View All History</a>
+          </div>
+        </div>
+
+        <!-- Right Sidebar: Quick Actions & Status -->
+        <div class="lg:col-span-4 flex flex-col gap-gutter">
+          <div class="bg-primary text-on-primary rounded-3xl p-8 shadow-xl relative overflow-hidden group">
+            <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-on-primary/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+            <h3 class="font-headline-lg text-headline-lg relative z-10">Report an Issue</h3>
+            <p class="text-body-md text-on-primary/80 mt-2 relative z-10">Spotted something that needs attention? Let us know immediately.</p>
+            <div class="mt-8 space-y-3 relative z-10">
+              <a th:href="@{/citizen/create-complaint}" class="w-full flex items-center justify-between p-4 bg-on-primary text-primary rounded-2xl font-label-md hover:bg-surface-bright transition-colors group/btn">
+                <span class="flex items-center"><span class="material-symbols-outlined mr-3">note_add</span>Quick Report</span>
+                <span class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+              <a th:href="@{/citizen/create-complaint}" class="w-full flex items-center justify-between p-4 bg-primary-container text-on-primary rounded-2xl font-label-md border border-on-primary/20 hover:bg-primary-container/80 transition-colors group/btn">
+                <span class="flex items-center"><span class="material-symbols-outlined mr-3">photo_camera</span>Upload Evidence</span>
+                <span class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hotspot Map: rendered dynamically via JS from the citizen's real category
+               distribution (we don't store lat/lng, so this shows which issue categories
+               are most active for this citizen instead of literal geo-coordinates). -->
+          <div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm">
+            <div class="w-full h-48 relative" id="hotspot-map"></div>
+            <div class="p-6">
+              <h4 class="font-title-md text-title-md text-on-surface">Category Hotspots</h4>
+              <p class="text-body-md text-on-surface-variant mt-1">Which issue types you report most often.</p>
+            </div>
+          </div>
+
+          <div class="bg-secondary-container text-on-secondary-container rounded-3xl p-8 relative">
+            <div class="flex justify-between items-start mb-6">
+              <span class="material-symbols-outlined text-4xl">volunteer_activism</span>
+              <span class="bg-on-secondary-container text-secondary-container text-[10px] px-2 py-1 rounded font-bold uppercase">Community</span>
+            </div>
+            <p class="font-headline-lg text-headline-lg-mobile leading-tight">Join the Weekend Cleanup Drive</p>
+            <p class="text-body-md mt-4 opacity-90">Help us clean the Central Park area this Saturday. Earn 50 Civic Points!</p>
+            <a href="https://www.facebook.com/share/g/19KJXetVzb/" target="_blank" rel="noopener noreferrer"
+               class="mt-8 inline-block px-6 py-2 border-2 border-on-secondary-container rounded-full font-label-md hover:bg-on-secondary-container hover:text-secondary-container transition-all text-center">
+              Register Now
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  // Real data injected from CitizenController - replaces the old hardcoded
+  // trendData / activityData arrays and the random hotspot dots.
+  const trendLabels = /*[[${trendLabels}]]*/ [];
+  const trendValues = /*[[${trendValues}]]*/ [];
+  const activityData = /*[[${recentActivities}]]*/ [];
+  const categoryLabels = /*[[${categoryLabels}]]*/ [];
+  const categoryValues = /*[[${categoryValues}]]*/ [];
+  /*]]>*/
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    /* ===== AVATAR SYNC (reads the same localStorage key the Profile page writes to,
+       so a photo change there is reflected here automatically without a page reload
+       once the user navigates back) ===== */
+    (function () {
+      const avatarKey = 'cityfix-avatar-' + /*[[${citizen?.email ?: ''}]]*/ '';
+      const savedAvatar = localStorage.getItem(avatarKey);
+      if (savedAvatar) {
+        document.getElementById('header-avatar').src = savedAvatar;
+      }
+    })();
+
+    /* ===== CARD HOVER LIFT ===== */
+    document.querySelectorAll('.shadow-sm').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-4px)';
+        card.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0px)';
+      });
+    });
+
+    /* ===== STAT COUNTER ANIMATION =====
+       Scoped ONLY to the 4 stat cards by id, instead of the previous ".text-display-lg"
+       class selector, which used to also grab the "Welcome back, {name}" heading and
+       try to parse a name as a number (producing "NaN" on screen). */
+    const statIds = ['stat-total', 'stat-pending', 'stat-working', 'stat-resolved'];
+    statIds.forEach(id => {
+      const counter = document.getElementById(id);
+      if (!counter) return;
+      const target = parseInt(counter.textContent, 10) || 0;
+      let count = 0;
+      const step = () => {
+        const inc = Math.max(target / 30, 1);
+        if (count < target) {
+          count = Math.min(count + inc, target);
+          counter.textContent = Math.ceil(count);
+          requestAnimationFrame(() => setTimeout(step, 16));
+        } else {
+          counter.textContent = target;
+        }
+      };
+      if (target > 0) step(); else counter.textContent = '0';
+    });
+
+    /* =========================================================================
+       ACTIVITY TREND — rendered client-side from REAL monthly totals
+       (trendLabels / trendValues, injected above from the backend).
+       ========================================================================= */
+    const chartEl = document.getElementById('trend-chart');
+    const labelsEl = document.getElementById('trend-labels');
+
+    if (!trendLabels.length) {
+      chartEl.innerHTML = '<p class="text-body-md text-on-surface-variant text-center w-full self-center">No activity yet.</p>';
+    } else {
+      // Fixed-scale distribution: 30 reports filed in a single month = 100%.
+      // Anything below scales proportionally (e.g. 3 reports = 10%), and
+      // anything above 30 is capped at 100% rather than growing further.
+      const MONTHLY_TARGET = 30;
+
+      trendLabels.forEach((label, i) => {
+        const value = trendValues[i] || 0;
+        const percent = Math.min(Math.round((value / MONTHLY_TARGET) * 100), 100);
+        const isLast = i === trendLabels.length - 1;
+
+        const col = document.createElement('div');
+        col.className = 'flex flex-col items-center justify-end h-full';
+
+        const valueLabel = document.createElement('span');
+        valueLabel.className = 'text-label-sm font-label-sm text-on-surface-variant mb-1';
+        valueLabel.textContent = percent + '%';
+
+        const bar = document.createElement('div');
+        bar.className = 'w-8 rounded-t-lg transition-all duration-500 hover:opacity-80 ' +
+                (isLast ? 'bg-primary' : 'bg-primary/25');
+        bar.style.height = '4px';
+        bar.title = label + ': ' + value + ' complaint' + (value === 1 ? '' : 's') + ' (' + percent + '% of monthly target)';
+
+        col.appendChild(valueLabel);
+        col.appendChild(bar);
+        chartEl.appendChild(col);
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            bar.style.height = (percent === 0 ? 4 : Math.max(percent * 2.7, 8)) + 'px';
+          }, 50);
+        });
+
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = label;
+        labelsEl.appendChild(labelSpan);
+      });
+    }
+
+    /* =========================================================================
+       RECENT ACTIVITY — rendered client-side from the REAL activityData array
+       (this citizen's latest 5 complaints, injected above from the backend).
+       ========================================================================= */
+    const activityListEl = document.getElementById('recent-activity-list');
+    if (!activityData.length) {
+      activityListEl.innerHTML = '<p class="text-body-md text-on-surface-variant text-center py-8">No recent activity yet.</p>';
+    } else {
+      const line = document.createElement('div');
+      line.className = 'absolute left-4 top-2 bottom-2 w-0.5 bg-outline-variant';
+      activityListEl.appendChild(line);
+
+      activityData.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'relative pl-12';
+        row.innerHTML = `
+          <div class="absolute left-2 top-1 w-4 h-4 rounded-full ${item.color} ring-4 ring-surface-container-lowest"></div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+            <div>
+              <p class="font-title-md text-title-md text-on-surface"></p>
+              <p class="text-body-md text-on-surface-variant"></p>
+            </div>
+            <span class="text-label-sm text-on-surface-variant whitespace-nowrap"></span>
+          </div>`;
+        row.querySelector('.font-title-md').textContent = item.title;
+        row.querySelector('.text-body-md').textContent = item.detail;
+        row.querySelector('.text-label-sm').textContent = item.time;
+        activityListEl.appendChild(row);
+      });
+    }
+
+    /* =========================================================================
+       CATEGORY HOTSPOTS — rendered client-side from the REAL categoryLabels /
+       categoryValues arrays (injected above from the backend). Each dot's
+       position is derived deterministically from its category name (so it
+       stays in the same spot on every reload) and its size/intensity scales
+       with how many complaints this citizen filed in that category.
+       ========================================================================= */
+    const mapEl = document.getElementById('hotspot-map');
+
+    function hashToRange(str, min, max) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash * 31 + str.charCodeAt(i)) | 0;
+      }
+      const normalized = (Math.abs(hash) % 1000) / 1000;
+      return min + normalized * (max - min);
+    }
+
+    if (!categoryLabels.length) {
+      mapEl.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-surface-container/30">' +
+              '<p class="text-body-md text-on-surface-variant">No category data yet.</p></div>';
+    } else {
+      const maxCategoryVal = Math.max(...categoryValues, 1);
+      const hotspots = categoryLabels.map((label, i) => {
+        const value = categoryValues[i] || 0;
+        const ratio = value / maxCategoryVal;
+        return {
+          label: label,
+          value: value,
+          x: hashToRange(label + '-x', 15, 85),
+          y: hashToRange(label + '-y', 15, 85),
+          size: 8 + ratio * 16,
+          intensity: 0.3 + ratio * 0.6
+        };
+      });
+
+      let svg = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-full">
+        <rect width="100" height="100" fill="#eceef0"></rect>`;
+      for (let i = 10; i < 100; i += 10) {
+        svg += `<line x1="${i}" y1="0" x2="${i}" y2="100" stroke="#c4c5d5" stroke-width="0.3" />`;
+        svg += `<line x1="0" y1="${i}" x2="100" y2="${i}" stroke="#c4c5d5" stroke-width="0.3" />`;
+      }
+      hotspots.forEach(h => {
+        svg += `<circle cx="${h.x}" cy="${h.y}" r="${h.size}" fill="#00288e" opacity="${h.intensity * 0.15}">` +
+                `<title>${h.label}: ${h.value}</title></circle>`;
+        svg += `<circle cx="${h.x}" cy="${h.y}" r="${h.size / 4}" fill="#00288e" opacity="${h.intensity}">` +
+                `<title>${h.label}: ${h.value}</title></circle>`;
+      });
+      svg += `</svg>`;
+      mapEl.innerHTML = svg;
+    }
+  });
+</script>
+
+</body>
+</html>

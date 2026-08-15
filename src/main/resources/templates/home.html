@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CityFix - Report Issues, Fix Your City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#00288e;
+      --primary-container:#1e40af;
+      --on-primary:#ffffff;
+      --primary-fixed:#dde1ff;
+      --on-primary-fixed:#001453;
+      --secondary:#006c49;
+      --secondary-container:#6cf8bb;
+      --on-secondary-container:#00714d;
+      --secondary-fixed:#6ffbbe;
+      --on-secondary-fixed:#002113;
+      --tertiary:#611e00;
+      --tertiary-container:#872d00;
+      --on-tertiary-container:#ffa583;
+      --error:#ba1a1a;
+      --error-container:#ffdad6;
+      --on-error-container:#93000a;
+      --surface:#f7f9fb;
+      --surface-container-low:#f2f4f6;
+      --surface-container:#eceef0;
+      --surface-container-lowest:#ffffff;
+      --on-surface:#191c1e;
+      --on-surface-variant:#444653;
+      --outline-variant:#c4c5d5;
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--surface);
+      color:var(--on-surface);
+      font-size:16px;
+      line-height:1.5;
+      overscroll-behavior:none;
+    }
+    a{text-decoration:none;color:inherit;}
+    .material-symbols-outlined{
+      font-family:'Material Symbols Outlined';
+      font-weight:normal;
+      font-style:normal;
+      font-size:24px;
+      display:inline-block;
+      line-height:1;
+      vertical-align:middle;
+    }
+    .container{max-width:1440px;margin:0 auto;padding:0 16px;}
+    @media(min-width:1024px){.container{padding:0 32px;}}
+
+    /* Header */
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:50;
+      background:rgba(247,249,251,0.8);
+      backdrop-filter:blur(20px);
+      box-shadow:0 1px 8px rgba(0,0,0,0.04);
+    }
+    .header-inner{
+      height:64px;display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo-group{display:flex;align-items:center;gap:12px;}
+    .logo-group img{height:32px;width:auto;}
+    .logo-text{font-weight:600;font-size:20px;color:var(--primary);}
+    nav{display:none;align-items:center;gap:32px;}
+    @media(min-width:768px){nav{display:flex;}}
+    nav a{color:var(--on-surface-variant);font-weight:500;transition:color .2s;}
+    nav a:hover{color:var(--on-surface);}
+    nav a.active{color:var(--primary);font-weight:600;}
+    .btn-register{
+      background:var(--primary);color:var(--on-primary);
+      padding:8px 16px;border-radius:8px;margin-left:16px;
+      transition:background .2s;
+    }
+    .btn-register:hover{background:var(--primary-container);}
+
+    main{padding-top:64px;}
+
+    /* Hero */
+    .hero{
+      position:relative;min-height:700px;display:flex;align-items:center;
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute;inset:0;z-index:0;
+      background-image: url('/city2.0.jpg');
+      background-size:cover;background-position:center;
+      transform:scale(1.05);
+      animation:slowZoom 20s linear infinite alternate;
+    }
+    @keyframes slowZoom{from{transform:scale(1);}to{transform:scale(1.1);}}
+    .hero-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to right, rgba(0,40,142,0.92), rgba(0,40,142,0.45) 60%, transparent);
+    }
+    .hero-content{position:relative;z-index:10;max-width:640px;}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:4px 12px;border-radius:999px;
+      background:var(--primary-fixed);color:var(--on-primary-fixed);
+      margin-bottom:24px;font-size:12px;font-weight:600;
+      letter-spacing:0.05em;text-transform:uppercase;
+    }
+    .badge .material-symbols-outlined{font-size:18px;}
+    .hero h1{
+      font-size:48px;font-weight:700;color:#fff;margin:0 0 24px;
+      line-height:1.1;letter-spacing:-0.02em;
+    }
+    .hero h1 span{color:var(--secondary-fixed);}
+    .hero p{
+      font-size:18px;color:rgba(255,255,255,0.9);max-width:480px;
+      margin:0 0 40px;line-height:1.6;
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:16px;}
+    .btn-primary{
+      display:flex;align-items:center;gap:12px;
+      background:var(--primary);color:var(--on-primary);
+      padding:16px 32px;border-radius:12px;font-weight:600;font-size:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);transition:background .2s;
+    }
+    .btn-primary:hover{background:var(--primary-container);}
+    .btn-secondary{
+      display:flex;align-items:center;gap:12px;
+      background:rgba(255,255,255,0.1);color:#fff;
+      border:1px solid rgba(255,255,255,0.2);
+      padding:16px 32px;border-radius:12px;font-weight:600;font-size:20px;
+      backdrop-filter:blur(8px);transition:background .2s;
+    }
+    .btn-secondary:hover{background:rgba(255,255,255,0.2);}
+
+    /* Stats */
+    .stats{position:relative;z-index:20;margin-top:-64px;padding-bottom:96px;}
+    .stats-grid{
+      display:grid;grid-template-columns:1fr;gap:24px;
+    }
+    @media(min-width:768px){.stats-grid{grid-template-columns:1fr 1fr;}}
+    @media(min-width:1024px){.stats-grid{grid-template-columns:repeat(4,1fr);}}
+    .stat-card{
+      background:var(--surface-container-lowest);
+      padding:32px;border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      display:flex;flex-direction:column;gap:16px;
+      transition:transform .3s;
+    }
+    .stat-card:hover{transform:translateY(-8px);}
+    .stat-icon{
+      width:48px;height:48px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .stat-value{font-size:32px;font-weight:600;color:var(--on-surface);}
+    .stat-label{
+      font-size:12px;color:var(--on-surface-variant);
+      text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;
+    }
+
+    /* Section headers */
+    section{padding:96px 0;}
+    .section-label{
+      color:var(--primary);text-transform:uppercase;letter-spacing:0.2em;
+      font-size:14px;font-weight:600;margin-bottom:16px;display:block;
+    }
+    h2.section-title{font-size:32px;font-weight:600;margin:0 0 24px;letter-spacing:-0.01em;}
+
+    /* How it works */
+    .how-header{
+      display:flex;flex-direction:column;gap:32px;margin-bottom:64px;
+    }
+    @media(min-width:1024px){.how-header{flex-direction:row;align-items:flex-end;justify-content:space-between;}}
+    .how-header p{max-width:380px;color:var(--on-surface-variant);}
+    .steps{display:grid;grid-template-columns:1fr;gap:48px;position:relative;}
+    @media(min-width:768px){.steps{grid-template-columns:repeat(3,1fr);}}
+    .step{display:flex;flex-direction:column;align-items:flex-start;gap:24px;}
+    @media(min-width:768px){
+      .step:nth-child(2){margin-top:48px;}
+      .step:nth-child(3){margin-top:96px;}
+    }
+    .step-num{
+      width:96px;height:96px;border-radius:50%;background:#fff;
+      box-shadow:0 4px 16px rgba(0,0,0,0.08);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--primary);font-size:32px;font-weight:700;
+    }
+    .step h3{font-size:20px;font-weight:600;margin:0;}
+    .step p{color:var(--on-surface-variant);margin:0;}
+
+    /* Complaints */
+    .complaints-section{background:var(--surface-container-low);}
+    .complaints-layout{display:grid;grid-template-columns:1fr;gap:48px;}
+    @media(min-width:1024px){.complaints-layout{grid-template-columns:7fr 5fr;}}
+    .complaints-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+    .view-all{color:var(--primary);font-weight:500;display:flex;align-items:center;gap:4px;}
+    .view-all:hover{text-decoration:underline;}
+    .complaint-list{display:flex;flex-direction:column;gap:16px;}
+    .complaint-card{
+      background:#fff;padding:24px;border-radius:16px;
+      display:flex;gap:24px;transition:box-shadow .2s;
+    }
+    .complaint-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+    .complaint-thumb{
+      width:96px;height:96px;border-radius:12px;overflow:hidden;flex-shrink:0;
+      background-size:cover;background-position:center;
+    }
+    .complaint-body{flex-grow:1;min-width:0;}
+    .complaint-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .tag{
+      padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;
+      text-transform:uppercase;letter-spacing:-0.02em;
+    }
+    .tag-error{background:var(--error-container);color:var(--on-error-container);}
+    .tag-secondary{background:var(--secondary-container);color:var(--on-secondary-container);}
+    .tag-tertiary{background:var(--tertiary-container);color:var(--on-tertiary-container);}
+    .time{color:var(--on-surface-variant);font-size:12px;}
+    .complaint-body h4{font-size:20px;font-weight:600;margin:0 0 4px;}
+    .complaint-body p{
+      color:var(--on-surface-variant);margin:0 0 12px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .complaint-meta{display:flex;gap:16px;font-size:14px;color:var(--on-surface-variant);}
+    .complaint-meta span{display:flex;align-items:center;gap:4px;}
+    .complaint-meta .material-symbols-outlined{font-size:18px;}
+    .resolved{color:var(--secondary);}
+
+    /* Map preview */
+    .map-card{
+      position:sticky;top:96px;background:#fff;border-radius:24px;
+      overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+    .map-card-header{padding:24px;border-bottom:1px solid var(--outline-variant);}
+    .map-card-header h3{font-size:20px;font-weight:600;margin:0 0 4px;}
+    .map-card-header p{color:var(--on-surface-variant);font-size:14px;margin:0;}
+    .map-area{
+      width:100%;height:450px;background:var(--surface-container);
+      position:relative;overflow:hidden;
+    }
+    .map-dot-outer{position:absolute;border-radius:50%;}
+    .map-footer{
+      padding:24px;background:var(--primary);color:#fff;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .map-footer span{text-transform:uppercase;letter-spacing:0.05em;font-size:14px;font-weight:500;}
+    .map-btn{
+      background:#fff;color:var(--primary);padding:8px 16px;border-radius:8px;
+      font-weight:500;font-size:14px;border:none;cursor:pointer;
+    }
+
+    /* CTA */
+    .cta{
+      position:relative;overflow:hidden;background:var(--primary);
+      text-align:center;color:#fff;
+    }
+    .cta h2{font-size:48px;font-weight:700;margin:0 0 32px;}
+    .cta p{max-width:640px;margin:0 auto 48px;color:rgba(255,255,255,0.8);font-size:18px;}
+    .cta-actions{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+    @media(min-width:640px){.cta-actions{flex-direction:row;}}
+    .btn-cta-primary{
+      background:var(--secondary-fixed);color:var(--on-secondary-fixed);
+      padding:20px 48px;border-radius:16px;font-weight:600;font-size:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.3);transition:transform .2s;
+    }
+    .btn-cta-primary:hover{transform:scale(1.05);}
+    .btn-cta-secondary{
+      color:#fff;font-weight:600;font-size:20px;
+      display:flex;align-items:center;gap:8px;transition:opacity .2s;
+    }
+    .btn-cta-secondary:hover{opacity:0.8;}
+
+    /* Footer */
+    footer{
+      background:var(--surface-container-low);
+      border-top:1px solid var(--outline-variant);
+      padding:48px 0;
+    }
+    .footer-top{
+      display:flex;flex-direction:column;gap:32px;
+      justify-content:space-between;align-items:flex-start;
+    }
+    @media(min-width:768px){.footer-top{flex-direction:row;}}
+    .footer-brand{max-width:320px;}
+    .footer-brand .logo-group{margin-bottom:16px;}
+    .footer-brand .logo-group img{height:24px;}
+    .footer-brand p{color:var(--on-surface-variant);font-size:14px;}
+    .footer-links{display:flex;gap:48px;}
+    .footer-col{display:flex;flex-direction:column;gap:8px;}
+    .footer-col span{
+      font-size:14px;color:var(--on-surface);text-transform:uppercase;
+      letter-spacing:0.05em;margin-bottom:8px;font-weight:500;
+    }
+    .footer-col a{color:var(--on-surface-variant);}
+    .footer-col a:hover{color:var(--primary);}
+    .footer-social{display:flex;gap:16px;}
+    .footer-social .material-symbols-outlined{
+      color:var(--on-surface-variant);cursor:pointer;
+    }
+    .footer-social .material-symbols-outlined:hover{color:var(--primary);}
+    .footer-bottom{
+      margin-top:48px;padding-top:32px;border-top:1px solid var(--outline-variant);
+      text-align:center;color:var(--on-surface-variant);font-size:12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-group">
+      <img th:src="@{/screen.png}" alt="CityFix Logo">
+      <span class="logo-text">CityFix</span>
+    </div>
+    <nav>
+      <a th:href="@{/}"
+         th:classappend="${activePage == 'home'} ? 'active'"
+         th:attrappend="aria-current=${activePage == 'home'} ? 'page'">Home</a>
+
+      <a th:href="@{/about}"
+         th:classappend="${activePage == 'about'} ? 'active'">About</a>
+
+      <a th:href="@{/contact}"
+         th:classappend="${activePage == 'contact'} ? 'active'">Contact</a>
+
+      <a th:href="@{/login}"
+         th:classappend="${activePage == 'login'} ? 'active'">Login</a>
+
+
+      <a th:href="@{/register}" class="btn-register">Register</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg" role="img" aria-label="Aerial night view of a busy city skyline with illuminated highways, symbolizing an active urban environment."></div>
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+          <span>Official Municipal Platform</span>
+        </div>
+        <h1>Report Issues,<br><span>Fix Your City.</span></h1>
+        <p>Join thousands of citizens in building a better urban future. Report infrastructure issues in seconds and track real-time resolution from your local government.</p>
+        <div class="hero-actions">
+          <a th:href="@{/login}" class="btn-primary">
+            Report an Issue
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </a>
+          <a href="#" class="btn-secondary">View Public Map</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(0,40,142,0.1);color:var(--primary);">
+            <span class="material-symbols-outlined" aria-hidden="true">task_alt</span>
+          </div>
+          <div>
+            <div class="stat-value">14,280</div>
+            <div class="stat-label">Issues Resolved</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(0,108,73,0.1);color:var(--secondary);">
+            <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+          </div>
+          <div>
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Avg. Response Time</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:rgba(97,30,0,0.1);color:var(--tertiary);">
+            <span class="material-symbols-outlined" aria-hidden="true">groups</span>
+          </div>
+          <div>
+            <div class="stat-value">85,000</div>
+            <div class="stat-label">Active Citizens</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#b8c4ff;color:#173bab;">
+            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+          </div>
+          <div>
+            <div class="stat-value">98%</div>
+            <div class="stat-label">City Coverage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <div class="container">
+      <div class="how-header">
+        <div>
+          <span class="section-label">Process</span>
+          <h2 class="section-title">Simple steps to a smarter city infrastructure</h2>
+        </div>
+        <p>We've streamlined the connection between civic duty and municipal action. No more long queues or confusing paperwork.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Capture &amp; Tag</h3>
+          <p>Snap a photo of the issue and let our AI automatically detect the category and location.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Dispatch</h3>
+          <p>The report is instantly routed to the specific municipal department responsible for the fix.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Resolution</h3>
+          <p>Receive real-time notifications as the work progresses and a final confirmation photo once completed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complaints -->
+  <section class="complaints-section">
+    <div class="container">
+      <div class="complaints-layout">
+        <div>
+          <div class="complaints-header">
+            <h2 class="section-title" style="margin:0;">Recent Public Complaints</h2>
+            <a href="#" class="view-all">View All <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px;">open_in_new</span></a>
+          </div>
+          <div class="complaint-list">
+            <div class="complaint-card">
+              <div class="complaint-thumb" style="background-color:#c4c5d5;" role="img" aria-label="A large pothole on a suburban asphalt road, surrounded by safety cones."></div>
+              <div class="complaint-body">
+                <div class="complaint-top">
+                  <span class="tag tag-error">Pothole</span>
+                  <span class="time">2 hours ago</span>
+                </div>
+                <h4>Large Pothole on 5th Avenue</h4>
+                <p>Reported near the intersection of Main and 5th. Causing traffic delays...</p>
+                <div class="complaint-meta">
+                  <span><span class="material-symbols-outlined" aria-hidden="true">location_on</span> Downtown District</span>
+                  <span><span class="material-symbols-outlined" aria-hidden="true">sync</span> In Progress</span>
+                </div>
+              </div>
+            </div>
+            <div class="complaint-card">
+              <div class="complaint-thumb" style="background-color:#c4c5d5;" role="img" aria-label="A broken street light in a park during twilight with a shattered glass casing."></div>
+              <div class="complaint-body">
+                <div class="complaint-top">
+                  <span class="tag tag-secondary">Street Lighting</span>
+                  <span class="time">5 hours ago</span>
+                </div>
+                <h4>Broken Street Light - Oak Park</h4>
+                <p>The entire row of lights is out since last night's storm. Unsafe for pedestrians.</p>
+                <div class="complaint-meta">
+                  <span><span class="material-symbols-outlined" aria-hidden="true">location_on</span> Westside Park</span>
+                  <span class="resolved"><span class="material-symbols-outlined" aria-hidden="true">check_circle</span> Resolved</span>
+                </div>
+              </div>
+            </div>
+            <div class="complaint-card">
+              <div class="complaint-thumb" style="background-color:#c4c5d5;" role="img" aria-label="Overfilled public waste bins in an urban plaza with litter nearby."></div>
+              <div class="complaint-body">
+                <div class="complaint-top">
+                  <span class="tag tag-tertiary">Sanitation</span>
+                  <span class="time">Yesterday</span>
+                </div>
+                <h4>Trash Collection Required</h4>
+                <p>Public bins at the Central Square are overflowing after the weekend festival.</p>
+                <div class="complaint-meta">
+                  <span><span class="material-symbols-outlined" aria-hidden="true">location_on</span> Central Square</span>
+                  <span><span class="material-symbols-outlined" aria-hidden="true">schedule</span> Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="map-card">
+            <div class="map-card-header">
+              <h3>Live Heatmap</h3>
+              <p>Current active reports in your area</p>
+            </div>
+            <div class="map-area">
+              <div class="map-dot-outer" style="top:25%;left:33%;width:32px;height:32px;background:rgba(186,26,26,0.3);"></div>
+              <div class="map-dot-outer" style="top:25%;left:33%;width:16px;height:16px;background:var(--error);box-shadow:0 4px 10px rgba(0,0,0,0.2);"></div>
+              <div class="map-dot-outer" style="bottom:33%;right:25%;width:48px;height:48px;background:rgba(0,40,142,0.2);"></div>
+              <div class="map-dot-outer" style="bottom:33%;right:25%;width:24px;height:24px;background:var(--primary);box-shadow:0 4px 10px rgba(0,0,0,0.2);"></div>
+            </div>
+            <div class="map-footer">
+              <span>Join the movement</span>
+              <button class="map-btn">Open Interactive Map</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to make a difference?</h2>
+      <p>CityFix is more than an app—it's a commitment to our shared home. Start reporting today and help us prioritize what matters most to your neighborhood.</p>
+      <div class="cta-actions">
+        <a th:href="@{/register}" class="btn-cta-primary">Create Free Account</a>
+        <a href="#" class="btn-cta-secondary">
+          Learn about our impact
+          <span class="material-symbols-outlined" aria-hidden="true">north_east</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-group">
+          <img th:src="@{/screen.png}" alt="CityFix Logo">
+          <span class="logo-text">CityFix</span>
+        </div>
+        <p>Empowering citizens to build smarter, cleaner cities through transparent reporting and efficient governance.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <span>Information</span>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <div class="footer-col">
+          <span>Support</span>
+          <a href="#">Help Center</a>
+          <a href="#">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <span class="material-symbols-outlined" aria-hidden="true">public</span>
+        <span class="material-symbols-outlined" aria-hidden="true">forum</span>
+        <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2024 CityFix Smart Systems. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Counter animation for stat values
+  const targets = { 0: 14280, 2: 85000 };
+  const statValues = document.querySelectorAll('.stat-value');
+  const animatable = [statValues[0], statValues[2]];
+  const finalTargets = [14280, 85000];
+  const speed = 200;
+
+  function animate(el, target){
+    let count = 0;
+    const inc = target / speed;
+    function step(){
+      count += inc;
+      if(count < target){
+        el.textContent = Math.ceil(count).toLocaleString();
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = target.toLocaleString();
+      }
+    }
+    step();
+  }
+
+  const statsSection = document.querySelector('.stats');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        animatable.forEach((el, i) => animate(el, finalTargets[i]));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(statsSection);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CityFix - Admin Profile</title>
+    <style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#ffb59a","on-secondary-fixed-variant":"#005236","on-tertiary":"#ffffff","on-tertiary-fixed":"#380d00","on-primary-fixed-variant":"#173bab","on-primary":"#ffffff","primary-container":"#1e40af","tertiary":"#611e00","error":"#ba1a1a","secondary":"#006c49","on-error":"#ffffff","surface-container-highest":"#e0e3e5","on-surface":"#191c1e","secondary-fixed":"#6ffbbe","error-container":"#ffdad6","surface-container-low":"#f2f4f6","on-tertiary-container":"#ffa583","surface":"#f7f9fb","inverse-primary":"#b8c4ff","surface-container-high":"#e6e8ea","on-secondary-container":"#00714d","outline":"#757684","secondary-container":"#6cf8bb","on-secondary-fixed":"#002113","surface-bright":"#f7f9fb","outline-variant":"#c4c5d5","primary-fixed-dim":"#b8c4ff","on-primary-container":"#a8b8ff","primary":"#00288e","on-surface-variant":"#444653","surface-tint":"#3755c3","on-primary-fixed":"#001453","surface-container":"#eceef0","primary-fixed":"#dde1ff","tertiary-container":"#872d00","on-error-container":"#93000a","inverse-surface":"#2d3133","on-tertiary-fixed-variant":"#802a00","on-secondary":"#ffffff","inverse-on-surface":"#eff1f3","secondary-fixed-dim":"#4edea3","surface-container-lowest":"#ffffff","tertiary-fixed":"#ffdbce","on-background":"#191c1e","background":"#f7f9fb","surface-variant":"#e0e3e5","surface-dim":"#d8dadc"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"32px","margin-mobile":"16px","base":"4px","sidebar-width":"280px","gutter":"24px","container-max":"1440px"},"fontFamily":{"display-lg":["Inter"],"label-sm":["Inter"],"title-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.05em","fontWeight":"600"}],"title-md":["20px",{"lineHeight":"1.4","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"500"}],"headline-lg":["32px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}]}}}}</script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col">
+    <div class="p-6 flex items-center gap-3 border-b border-outline-variant">
+        <img alt="CityFix Logo" class="h-8 w-auto" th:src="@{/screen.png}">
+        <span class="font-title-md text-title-md text-primary">CityFix</span>
+    </div>
+    <nav class="flex-1 py-6 px-4 space-y-2" data-active-classes="bg-secondary-container text-on-secondary-container">
+        <a th:href="@{/admin/dashboard}" data-path="citizen-dashboard" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a th:href="@{/admin/complaints}" data-path="manage-complaints" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">assignment</span>
+            <span class="font-label-md text-label-md">Manage Complaints</span>
+        </a>
+        <a th:href="@{/admin/users}" data-path="manage-users" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">group</span>
+            <span class="font-label-md text-label-md">Manage Users</span>
+        </a>
+        <a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/admin/admins}" data-path="manage-admins" class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined mr-3">admin_panel_settings</span>
+            <span class="font-label-md text-label-md">Manage Admins</span>
+        </a>
+        <a th:href="@{/admin/profile}" data-path="profile" aria-current="page" class="flex items-center px-4 py-3 rounded-xl transition-all bg-secondary-container text-on-secondary-container">
+            <span class="material-symbols-outlined mr-3">person</span>
+            <span class="font-label-md text-label-md">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-outline-variant">
+        <a th:href="@{/logout}" data-path="logout" class="flex items-center px-4 py-3 rounded-xl text-error hover:bg-error-container transition-all">
+            <span class="material-symbols-outlined mr-3">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<div class="pl-sidebar-width">
+    <!-- Search bar removed here; replaced with a simple page header like other admin pages -->
+    <header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-between px-margin-desktop">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">person</span>
+            <div class="flex flex-col leading-tight">
+                <span class="font-label-md text-label-md text-on-surface">Admin Profile</span>
+                <span class="text-label-sm text-on-surface-variant">Manage your administrator account</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+            <a th:href="@{/admin/profile}" class="flex items-center gap-3 border-l border-outline-variant pl-6 cursor-pointer hover:opacity-80 transition-opacity">
+                <span class="hidden md:block text-right">
+                    <p class="text-label-md font-bold text-on-surface" id="header-name" th:text="${admin.name}">Admin</p>
+                    <p class="text-label-sm text-on-surface-variant">Administrator</p>
+                </span>
+                <img alt="Profile" class="w-9 h-9 rounded-full object-cover border border-outline-variant shadow-sm" id="header-avatar"
+                     th:src="@{${admin.profileImagePath != null ? admin.profileImagePath : '/profile1.jpg'}}">
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-16 min-h-screen bg-surface">
+        <div class="flex flex-col w-full">
+
+            <!-- Profile Hero Section -->
+            <div class="relative w-full px-margin-desktop py-12 overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-1/4 -mb-12 w-64 h-64 bg-secondary-container/10 rounded-full blur-2xl"></div>
+                <div class="relative flex flex-col md:flex-row items-center md:items-end gap-8">
+                    <!-- Profile Image with Camera Upload (preview only, not saved to server) -->
+                    <div class="relative group" id="avatar-container">
+                        <div class="w-40 h-40 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary-container shadow-xl">
+                            <img alt="Admin" class="w-full h-full rounded-full object-cover border-4 border-surface-container-lowest" id="hero-avatar"
+                                 th:src="@{${admin.profileImagePath != null ? admin.profileImagePath : '/profile1.jpg'}}">
+                        </div>
+                        <label for="avatar-input" class="absolute bottom-1 right-1 p-2 bg-primary text-on-primary rounded-full shadow-lg hover:scale-110 transition-transform cursor-pointer z-10">
+                            <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*" class="hidden">
+                        <!-- Small inline status while a photo is being compressed/saved -->
+                        <div id="avatar-status" class="hidden absolute inset-0 rounded-full bg-black/40 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white animate-spin text-[28px]">progress_activity</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left mb-4">
+                        <div class="flex flex-col gap-1">
+                            <span class="font-label-sm text-primary uppercase tracking-widest">Administrative Leadership</span>
+                            <h1 class="font-display-lg text-display-lg text-on-surface" id="hero-name" th:text="${admin.name}">Admin</h1>
+                            <p class="font-body-lg text-body-lg text-on-surface-variant flex items-center justify-center md:justify-start gap-2">
+                                <span class="material-symbols-outlined text-primary">verified_user</span>
+                                System Administrator
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-12 gap-gutter px-margin-desktop pb-12">
+
+                <!-- Left Column: Credentials & Security -->
+                <div class="col-span-12 lg:col-span-4 space-y-gutter">
+
+                    <!-- Credentials (left mostly as-is for now, member id shown dynamically) -->
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
+                            <h2 class="font-title-md text-title-md text-on-surface">Credentials</h2>
+                            <span class="material-symbols-outlined text-primary/50">badge</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-on-surface-variant uppercase">Member ID</span>
+                                <span class="font-body-md font-bold text-on-surface" th:text="'#ADM-' + ${#numbers.formatInteger(admin.id, 3)}">#ADM-001</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-on-surface-variant uppercase">Department</span>
+                                <span class="font-body-md font-bold text-on-surface" th:text="${admin.contactInfo.department != null and !admin.contactInfo.department.isEmpty()} ? ${admin.contactInfo.department} : 'Not set'">City Operations</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-label-sm text-on-surface-variant uppercase">Security Clearance</span>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden max-w-[120px]">
+                                        <div class="h-full bg-secondary w-[85%]"></div>
+                                    </div>
+                                    <span class="font-label-md text-secondary">Level 4 (High)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings: only Change Password (like citizen profile) -->
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
+                            <h2 class="font-title-md text-title-md text-on-surface">Security Settings</h2>
+                            <span class="material-symbols-outlined text-error/50">security</span>
+                        </div>
+
+                        <form id="password-form" class="space-y-5">
+                            <div class="flex flex-col gap-2">
+                                <label class="font-label-md text-label-md text-on-surface-variant">Current Password</label>
+                                <div class="relative">
+                                    <input id="pw-current" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Enter current password" type="password">
+                                    <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-current">
+                                        <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                    </button>
+                                </div>
+                                <p id="pw-current-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="font-label-md text-label-md text-on-surface-variant">New Password</label>
+                                <div class="relative">
+                                    <input id="pw-new" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Enter new password" type="password">
+                                    <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-new">
+                                        <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                    </button>
+                                </div>
+                                <p id="pw-new-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                                <div class="mt-1 space-y-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                            <div id="pw-strength-bar" class="h-full rounded-full transition-all duration-300 w-0 bg-outline-variant"></div>
+                                        </div>
+                                        <span id="pw-strength-label" class="font-label-sm text-label-sm text-on-surface-variant min-w-[60px] text-right">None</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="font-label-md text-label-md text-on-surface-variant">Confirm New Password</label>
+                                <div class="relative">
+                                    <input id="pw-confirm" class="pw-field w-full bg-surface-container-low px-4 py-3 pr-12 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Re-enter new password" type="password">
+                                    <button type="button" class="pw-toggle absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" data-target="pw-confirm">
+                                        <span class="material-symbols-outlined text-[20px]">visibility_off</span>
+                                    </button>
+                                </div>
+                                <p id="pw-confirm-error" class="hidden text-error font-label-sm text-label-sm mt-1"></p>
+                            </div>
+                            <div class="flex justify-end pt-2">
+                                <button id="update-pw-btn" type="submit" class="px-6 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Column: Personal Info & Activity -->
+                <div class="col-span-12 lg:col-span-8 space-y-gutter">
+
+                    <!-- Personal Information (dynamic, edit-toggle, email fixed) -->
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-8">
+                            <h2 class="font-title-md text-title-md text-on-surface">Personal Information</h2>
+                            <button id="edit-personal-btn" type="button" class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all shadow-sm">
+                                <span class="material-symbols-outlined text-[18px]" id="edit-personal-icon">edit</span>
+                                <span id="edit-personal-text">Edit</span>
+                            </button>
+                        </div>
+                        <form id="personal-form">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex flex-col gap-2">
+                                    <label class="font-label-sm text-on-surface-variant ml-1">Full Name</label>
+                                    <input id="field-name" class="personal-field w-full px-4 py-3 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface" type="text" th:value="${admin.name}" disabled>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="font-label-sm text-on-surface-variant ml-1">Work Email</label>
+                                    <input id="field-email" class="w-full px-4 py-3 rounded-xl border border-outline-variant outline-none transition-all font-body-md text-on-surface opacity-60 cursor-not-allowed" type="email" th:value="${admin.email}" disabled>
+                                    <p class="font-label-sm text-label-sm text-on-surface-variant">Email can't be changed here since it's used to log in.</p>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="font-label-sm text-on-surface-variant ml-1">Phone</label>
+                                    <input id="field-phone" class="personal-field w-full px-4 py-3 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface" type="tel" th:value="${admin.contactInfo.phone}" disabled>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="font-label-sm text-on-surface-variant ml-1">Department</label>
+                                    <input id="field-department" class="personal-field w-full px-4 py-3 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface" type="text" th:value="${admin.contactInfo.department}" disabled>
+                                </div>
+                            </div>
+                            <p id="personal-error" class="hidden text-error font-label-sm text-label-sm mt-4"></p>
+                            <div id="personal-actions" class="hidden flex items-center justify-end gap-4 mt-6 pt-6 border-t border-outline-variant">
+                                <button id="cancel-personal-btn" type="button" class="px-6 py-3 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">Cancel</button>
+                                <button id="save-personal-btn" type="submit" class="px-8 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Recent Activity + Monthly Efficiency: left as-is, will revisit later -->
+                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-8">
+                            <h2 class="font-title-md text-title-md text-on-surface">Recent Administrative Activity</h2>
+                            <button class="text-primary font-label-md hover:underline">View Full Log</button>
+                        </div>
+                        <div class="space-y-6 relative">
+                            <div class="absolute left-6 top-2 bottom-2 w-px bg-outline-variant/50"></div>
+                            <div class="relative flex gap-6 group">
+                                <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center z-10 shrink-0">
+                                    <span class="material-symbols-outlined text-on-secondary-container">task_alt</span>
+                                </div>
+                                <div class="flex flex-col pt-1">
+                                    <p class="font-label-md text-on-surface"><span class="font-bold">Approved 14 reports</span> in 'Pothole Repairs' category</p>
+                                    <p class="text-xs text-on-surface-variant">Today at 11:42 AM</p>
+                                </div>
+                            </div>
+                            <div class="relative flex gap-6 group">
+                                <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center z-10 shrink-0">
+                                    <span class="material-symbols-outlined text-on-primary-container">category</span>
+                                </div>
+                                <div class="flex flex-col pt-1">
+                                    <p class="font-label-md text-on-surface">Updated <span class="font-bold">3 categories</span> in system settings</p>
+                                    <p class="text-xs text-on-surface-variant">Yesterday at 4:15 PM</p>
+                                </div>
+                            </div>
+                            <div class="relative flex gap-6 group">
+                                <div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center z-10 shrink-0">
+                                    <span class="material-symbols-outlined text-on-tertiary-fixed">group</span>
+                                </div>
+                                <div class="flex flex-col pt-1">
+                                    <p class="font-label-md text-on-surface">Provisioned <span class="font-bold">2 new Field Agents</span> for District 4</p>
+                                    <p class="text-xs text-on-surface-variant">Oct 24, 2023 at 09:30 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 p-6 bg-surface-container rounded-xl flex items-center justify-between">
+                            <div class="space-y-1">
+                                <p class="font-label-sm text-on-surface-variant uppercase">Monthly Efficiency</p>
+                                <p class="font-display-lg text-primary text-3xl" id="efficiency-value">--%</p>
+                            </div>
+                            <div class="flex items-end gap-1 h-12" id="efficiency-bars"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="personal-toast" class="hidden fixed bottom-8 right-8 z-[100] flex items-center gap-3 px-6 py-4 bg-secondary text-on-secondary rounded-xl shadow-2xl transform translate-y-4 opacity-0 transition-all duration-300">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span class="font-label-md text-label-md">Profile updated successfully!</span>
+            </div>
+            <div id="password-toast" class="hidden fixed bottom-8 right-8 z-[100] flex items-center gap-3 px-6 py-4 bg-secondary text-on-secondary rounded-xl shadow-2xl transform translate-y-4 opacity-0 transition-all duration-300">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span class="font-label-md text-label-md">Password updated successfully!</span>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+
+        /* AVATAR (stored in this browser only, keyed per admin, survives logout/login) */
+        const avatarInput = document.getElementById('avatar-input');
+        const heroAvatar = document.getElementById('hero-avatar');
+        const headerAvatar = document.getElementById('header-avatar');
+        const avatarStatus = document.getElementById('avatar-status');
+        const avatarKey = 'cityfix-avatar-' + /*[[${admin.email}]]*/ '';
+
+        const savedAvatar = localStorage.getItem(avatarKey);
+        if (savedAvatar) {
+            heroAvatar.src = savedAvatar;
+            headerAvatar.src = savedAvatar;
+        }
+
+        // Resizes + re-encodes the picked image as a small JPEG before it's stored.
+        // Raw photos (often several MB) blow past localStorage's ~5-10MB quota once
+        // base64-encoded, which made setItem() silently fail before. A compressed
+        // 320px-wide JPEG is typically only a few tens of KB, well inside the limit.
+        function compressImageToDataUrl(file, maxDimension, quality) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('Could not read the file.'));
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onerror = () => reject(new Error('Could not decode that image.'));
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > height && width > maxDimension) {
+                            height = Math.round(height * (maxDimension / width));
+                            width = maxDimension;
+                        } else if (height >= width && height > maxDimension) {
+                            width = Math.round(width * (maxDimension / height));
+                            height = maxDimension;
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file.');
+                avatarInput.value = '';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Image must be under 5MB.');
+                avatarInput.value = '';
+                return;
+            }
+
+            avatarStatus.classList.remove('hidden');
+
+            compressImageToDataUrl(file, 320, 0.75)
+                .then((dataUrl) => {
+                    heroAvatar.src = dataUrl;
+                    headerAvatar.src = dataUrl;
+                    try {
+                        localStorage.setItem(avatarKey, dataUrl);
+                    } catch (err) {
+                        // Still shouldn't happen post-compression, but if the browser's
+                        // storage is completely full or blocked (private mode etc.),
+                        // say so instead of failing silently like before.
+                        alert('Could not save the photo (browser storage full or blocked). It will only show for this session.');
+                    }
+                })
+                .catch((err) => {
+                    alert(err.message || 'Could not process that image. Please try another file.');
+                })
+                .finally(() => {
+                    avatarStatus.classList.add('hidden');
+                    avatarInput.value = '';
+                });
+        });
+
+        /* PERSONAL INFO: EDIT / VIEW MODE TOGGLE (email always stays disabled) */
+        const editBtn = document.getElementById('edit-personal-btn');
+        const editIcon = document.getElementById('edit-personal-icon');
+        const editText = document.getElementById('edit-personal-text');
+        const personalFields = document.querySelectorAll('.personal-field');
+        const personalActions = document.getElementById('personal-actions');
+        const cancelPersonalBtn = document.getElementById('cancel-personal-btn');
+        const personalForm = document.getElementById('personal-form');
+        const personalError = document.getElementById('personal-error');
+
+        let originalValues = {};
+        function snapshotValues() {
+            originalValues = {};
+            personalFields.forEach(f => { originalValues[f.id] = f.value; });
+        }
+        function restoreValues() {
+            personalFields.forEach(f => { f.value = originalValues[f.id] || ''; });
+        }
+
+        let isEditing = false;
+
+        function enterEditMode() {
+            isEditing = true;
+            snapshotValues();
+            personalFields.forEach(f => {
+                f.disabled = false;
+                f.classList.add('ring-2', 'ring-primary/10', 'border-primary/30');
+            });
+            personalActions.classList.remove('hidden');
+            editIcon.textContent = 'close';
+            editText.textContent = 'Cancel';
+            editBtn.classList.remove('border-primary', 'text-primary', 'hover:bg-primary', 'hover:text-on-primary');
+            editBtn.classList.add('border-error', 'text-error', 'hover:bg-error-container');
+        }
+
+        function exitEditMode() {
+            isEditing = false;
+            personalFields.forEach(f => {
+                f.disabled = true;
+                f.classList.remove('ring-2', 'ring-primary/10', 'border-primary/30');
+            });
+            personalActions.classList.add('hidden');
+            editIcon.textContent = 'edit';
+            editText.textContent = 'Edit';
+            editBtn.classList.add('border-primary', 'text-primary', 'hover:bg-primary', 'hover:text-on-primary');
+            editBtn.classList.remove('border-error', 'text-error', 'hover:bg-error-container');
+            personalError.classList.add('hidden');
+        }
+
+        editBtn.addEventListener('click', () => {
+            if (isEditing) {
+                restoreValues();
+                exitEditMode();
+            } else {
+                enterEditMode();
+            }
+        });
+
+        cancelPersonalBtn.addEventListener('click', () => {
+            restoreValues();
+            exitEditMode();
+        });
+
+        personalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('field-name').value.trim();
+            const phone = document.getElementById('field-phone').value.trim();
+            const department = document.getElementById('field-department').value.trim();
+
+            if (!name) { shakeField('field-name'); return; }
+            if (!phone) { shakeField('field-phone'); return; }
+            if (!department) { shakeField('field-department'); return; }
+
+            const saveBtn = document.getElementById('save-personal-btn');
+            const originalBtnText = saveBtn.textContent;
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+            personalError.classList.add('hidden');
+
+            fetch('/admin/profile/update-personal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, department })
+            })
+                .then(res => res.json().then(data => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalBtnText;
+
+                    if (!ok) {
+                        personalError.textContent = data.error || 'Something went wrong. Please try again.';
+                        personalError.classList.remove('hidden');
+                        return;
+                    }
+
+                    document.getElementById('hero-name').textContent = data.name;
+                    document.getElementById('header-name').textContent = data.name;
+
+                    exitEditMode();
+                    showToast('personal-toast', data.message || 'Profile updated successfully!');
+                })
+                .catch(() => {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalBtnText;
+                    personalError.textContent = 'Network error. Please try again.';
+                    personalError.classList.remove('hidden');
+                });
+        });
+
+        function shakeField(id) {
+            const el = document.getElementById(id);
+            el.classList.add('border-error');
+            el.style.animation = 'shake 0.4s ease';
+            el.addEventListener('animationend', () => { el.style.animation = ''; }, { once: true });
+            setTimeout(() => el.classList.remove('border-error'), 2000);
+        }
+
+        /* PASSWORD: TOGGLE VISIBILITY */
+        document.querySelectorAll('.pw-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const input = document.getElementById(targetId);
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility_off';
+                }
+            });
+        });
+
+        /* PASSWORD: STRENGTH METER */
+        const pwNew = document.getElementById('pw-new');
+        const strengthBar = document.getElementById('pw-strength-bar');
+        const strengthLabel = document.getElementById('pw-strength-label');
+
+        pwNew.addEventListener('input', () => {
+            const val = pwNew.value;
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const levels = [
+                { width: '0%', color: 'bg-outline-variant', text: 'None', textColor: 'text-on-surface-variant' },
+                { width: '20%', color: 'bg-error', text: 'Weak', textColor: 'text-error' },
+                { width: '40%', color: 'bg-tertiary', text: 'Fair', textColor: 'text-tertiary' },
+                { width: '60%', color: 'bg-primary-container', text: 'Good', textColor: 'text-primary-container' },
+                { width: '80%', color: 'bg-secondary', text: 'Strong', textColor: 'text-secondary' },
+                { width: '100%', color: 'bg-secondary', text: 'Very Strong', textColor: 'text-secondary' },
+            ];
+
+            const level = levels[Math.min(score, 5)];
+            strengthBar.style.width = level.width;
+            strengthBar.className = 'h-full rounded-full transition-all duration-300 ' + level.color;
+            strengthLabel.textContent = level.text;
+            strengthLabel.className = 'font-label-sm text-label-sm min-w-[60px] text-right ' + level.textColor;
+
+            hideError('pw-new-error');
+        });
+
+        /* PASSWORD: FORM SUBMIT */
+        const passwordForm = document.getElementById('password-form');
+
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            hideError('pw-current-error');
+            hideError('pw-new-error');
+            hideError('pw-confirm-error');
+
+            const currentPassword = document.getElementById('pw-current').value;
+            const newPassword = document.getElementById('pw-new').value;
+            const confirmPassword = document.getElementById('pw-confirm').value;
+
+            let valid = true;
+
+            if (!currentPassword) {
+                showError('pw-current-error', 'Current password is required.');
+                shakeField('pw-current');
+                valid = false;
+            }
+            if (!newPassword) {
+                showError('pw-new-error', 'New password is required.');
+                shakeField('pw-new');
+                valid = false;
+            } else if (newPassword.length < 6) {
+                showError('pw-new-error', 'Password must be at least 6 characters.');
+                shakeField('pw-new');
+                valid = false;
+            }
+            if (!confirmPassword) {
+                showError('pw-confirm-error', 'Please confirm your new password.');
+                shakeField('pw-confirm');
+                valid = false;
+            } else if (confirmPassword !== newPassword) {
+                showError('pw-confirm-error', 'Passwords do not match.');
+                shakeField('pw-confirm');
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            const updateBtn = document.getElementById('update-pw-btn');
+            const originalBtnText = updateBtn.textContent;
+            updateBtn.disabled = true;
+            updateBtn.textContent = 'Updating...';
+
+            fetch('/admin/profile/change-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+            })
+                .then(res => res.json().then(data => ({ ok: res.ok, data })))
+                .then(({ ok, data }) => {
+                    updateBtn.disabled = false;
+                    updateBtn.textContent = originalBtnText;
+
+                    if (!ok) {
+                        const msg = data.error || 'Something went wrong. Please try again.';
+                        if (msg.toLowerCase().includes('current password')) {
+                            showError('pw-current-error', msg);
+                            shakeField('pw-current');
+                        } else if (msg.toLowerCase().includes('match')) {
+                            showError('pw-confirm-error', msg);
+                            shakeField('pw-confirm');
+                        } else {
+                            showError('pw-new-error', msg);
+                            shakeField('pw-new');
+                        }
+                        return;
+                    }
+
+                    passwordForm.reset();
+                    strengthBar.style.width = '0%';
+                    strengthLabel.textContent = 'None';
+                    strengthLabel.className = 'font-label-sm text-label-sm min-w-[60px] text-right text-on-surface-variant';
+
+                    showToast('password-toast', data.message || 'Password updated successfully!');
+                })
+                .catch(() => {
+                    updateBtn.disabled = false;
+                    updateBtn.textContent = originalBtnText;
+                    showError('pw-new-error', 'Network error. Please try again.');
+                });
+        });
+
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+        function hideError(id) {
+            const el = document.getElementById(id);
+            el.textContent = '';
+            el.classList.add('hidden');
+        }
+
+        function showToast(toastId, message) {
+            const toast = document.getElementById(toastId);
+            const msgEl = toast.querySelector('span:last-child');
+            if (msgEl) msgEl.textContent = message;
+            toast.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                toast.style.transform = 'translateY(0)';
+                toast.style.opacity = '1';
+            });
+            setTimeout(() => {
+                toast.style.transform = 'translateY(16px)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        /* MONTHLY EFFICIENCY: placeholder auto-generated chart (not backed by real data yet) */
+        (function renderEfficiency() {
+            const bars = [60, 80, 45, 90, 70, Math.floor(70 + Math.random() * 30)];
+            const container = document.getElementById('efficiency-bars');
+            bars.forEach((h, i) => {
+                const bar = document.createElement('div');
+                bar.className = 'w-3 rounded-t-sm transition-all duration-700 ' + (i === bars.length - 1 ? 'bg-primary-container' : 'bg-primary');
+                bar.style.height = '0%';
+                container.appendChild(bar);
+                requestAnimationFrame(() => { bar.style.height = h + '%'; });
+            });
+            const avg = Math.round(bars.reduce((a, b) => a + b, 0) / bars.length * 10) / 10;
+            document.getElementById('efficiency-value').textContent = avg + '%';
+        })();
+
+        const style = document.createElement('style');
+        style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+    `;
+        document.head.appendChild(style);
+
+    });
+</script>
+
+</body>
+</html>
